@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abdul-Rafeh Alvi | Cybersecurity Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
+
         :root {
             --bg: #080d14;
             --surface: #0e1520;
@@ -17,6 +17,8 @@
             --text: #dce8f5;
             --muted: #5a7a9a;
             --green: #00ff88;
+            --font-display: 'Syne', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,7 +28,7 @@
         body {
             background: var(--bg);
             color: var(--text);
-            font-family: 'Syne', sans-serif;
+            font-family: var(--font-display);
             line-height: 1.7;
             overflow-x: hidden;
         }
@@ -59,7 +61,7 @@
         }
 
         .logo {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 1.1rem;
             color: var(--accent);
             letter-spacing: 0.05em;
@@ -79,6 +81,7 @@
             font-size: 0.85rem;
             letter-spacing: 0.05em;
             text-transform: uppercase;
+            font-family: var(--font-display);
             transition: color 0.2s;
         }
 
@@ -91,7 +94,7 @@
             padding: 6px 14px;
             border-radius: 4px;
             cursor: pointer;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.75rem;
             letter-spacing: 0.1em;
             transition: all 0.2s;
@@ -114,7 +117,7 @@
         }
 
         .hero-tag {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.8rem;
             color: var(--accent);
             letter-spacing: 0.15em;
@@ -163,7 +166,7 @@
         }
 
         .badge {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.75rem;
             padding: 5px 12px;
             border-radius: 3px;
@@ -222,7 +225,7 @@
         }
 
         .section-label {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.75rem;
             color: var(--accent);
             letter-spacing: 0.15em;
@@ -279,13 +282,13 @@
         }
 
         .card-company {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.8rem;
             color: var(--accent);
         }
 
         .card-date {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.75rem;
             color: var(--muted);
             white-space: nowrap;
@@ -337,7 +340,7 @@
         }
 
         .cert-issuer {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.78rem;
             color: var(--accent);
             margin-bottom: 0.6rem;
@@ -356,7 +359,7 @@
         }
 
         .skill-tag {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.78rem;
             padding: 6px 14px;
             background: var(--surface);
@@ -407,7 +410,7 @@
         }
 
         .project-link {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.78rem;
             color: var(--accent);
             text-decoration: none;
@@ -445,7 +448,7 @@
         .footer-links a {
             color: var(--muted);
             text-decoration: none;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.82rem;
             transition: color 0.2s;
         }
@@ -468,7 +471,7 @@
             color: var(--green);
             padding: 6px 14px;
             border-radius: 20px;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.75rem;
             letter-spacing: 0.05em;
             margin-bottom: 1.5rem;
