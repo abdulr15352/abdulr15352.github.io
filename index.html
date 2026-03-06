@@ -1,352 +1,673 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abdul-Rafeh Alvi | Cybersecurity Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8; /* Cyan */
-            --accent-hover: #0ea5e9;
-            --border: #334155;
+            --bg: #080d14;
+            --surface: #0e1520;
+            --card: #121b2b;
+            --border: #1e2d42;
+            --accent: #00d4ff;
+            --accent2: #7b61ff;
+            --text: #dce8f5;
+            --muted: #5a7a9a;
+            --green: #00ff88;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Syne', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
         }
 
-        /* Navigation */
+        /* Grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* NAV */
         nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 999;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 5%;
-            background-color: rgba(15, 23, 42, 0.95);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background: rgba(8,13,20,0.9);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
             color: var(--accent);
+            letter-spacing: 0.05em;
         }
+
+        .logo span { color: var(--muted); }
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 2rem;
+            list-style: none;
         }
 
         .nav-links a {
-            color: var(--text-main);
+            color: var(--muted);
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: color 0.2s;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover { color: var(--accent); }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--accent);
             color: var(--accent);
         }
 
-        /* Language Toggle */
-        .lang-toggle {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .lang-toggle:hover {
-            background: var(--border);
-        }
-
-        /* Hero Section */
+        /* HERO */
         .hero {
-            text-align: center;
-            padding: 4rem 1rem;
-            max-width: 800px;
-            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .hero-tag::before {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 1px;
+            background: var(--accent);
         }
 
         .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
         }
 
-        .hero p {
-            color: var(--text-muted);
+        .hero h1 .name-accent {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
             font-size: 1.1rem;
-            margin-bottom: 2rem;
+            color: var(--muted);
+            max-width: 560px;
+            margin-bottom: 2.5rem;
         }
 
-        .btn {
-            display: inline-block;
-            background-color: var(--accent);
-            color: var(--bg-color);
-            padding: 10px 20px;
-            border-radius: 5px;
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-bottom: 3rem;
+        }
+
+        .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding: 5px 12px;
+            border-radius: 3px;
+            border: 1px solid;
+        }
+
+        .badge-cyan { border-color: var(--accent); color: var(--accent); }
+        .badge-purple { border-color: var(--accent2); color: var(--accent2); }
+        .badge-green { border-color: var(--green); color: var(--green); }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 12px 28px;
+            border-radius: 4px;
             text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            transition: opacity 0.2s, transform 0.2s;
+            display: inline-block;
         }
 
-        .btn:hover {
-            background-color: var(--accent-hover);
+        .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+
+        .btn-outline {
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 12px 28px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: border-color 0.2s, color 0.2s, transform 0.2s;
+            display: inline-block;
         }
 
-        /* Sections */
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* SECTIONS */
         section {
-            padding: 3rem 5%;
-            max-width: 1000px;
+            padding: 6rem 5%;
+            max-width: 1100px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 1px;
+            background: var(--accent);
         }
 
         h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--accent);
-            display: inline-block;
-            padding-bottom: 5px;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 2.5rem;
         }
 
-        /* Cards */
+        /* CARDS */
         .card {
-            background-color: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
+            background: var(--card);
             border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.8rem;
+            margin-bottom: 1.2rem;
+            transition: border-color 0.2s, transform 0.2s;
         }
 
-        .card-header {
+        .card:hover {
+            border-color: rgba(0,212,255,0.3);
+            transform: translateX(4px);
+        }
+
+        .card-row {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 0.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .card-title {
-            font-size: 1.2rem;
-            font-weight: bold;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.3rem;
+        }
+
+        .card-company {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
             color: var(--accent);
         }
 
-        .card-subtitle {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
+        .card-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+            white-space: nowrap;
+            padding-top: 0.2rem;
         }
 
         .card ul {
-            list-style-position: inside;
-            color: var(--text-muted);
+            list-style: none;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .card li {
-            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--muted);
+            padding-left: 1rem;
+            position: relative;
         }
 
-        /* Skills Grid */
+        .card li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* CERT CARD */
+        .cert-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cert-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .cert-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .cert-issuer {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .cert-desc {
+            font-size: 0.88rem;
+            color: var(--muted);
+        }
+
+        /* SKILLS */
         .skills-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 0.6rem;
         }
 
         .skill-tag {
-            background-color: var(--card-bg);
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            padding: 6px 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            color: var(--text);
+            transition: border-color 0.2s, color 0.2s;
         }
 
-        /* Projects Grid */
+        .skill-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* PROJECTS */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.2rem;
         }
 
         .project-card {
-            background-color: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
+            background: var(--card);
             border: 1px solid var(--border);
-            transition: transform 0.2s;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: border-color 0.2s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
+            border-color: rgba(0,212,255,0.4);
+            transform: translateY(-4px);
         }
 
-        .project-title {
-            font-weight: bold;
+        .project-name {
+            font-size: 1rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
-            display: block;
         }
 
         .project-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+            flex: 1;
+            margin-bottom: 1.2rem;
         }
 
         .project-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
             color: var(--accent);
             text-decoration: none;
-            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: gap 0.2s;
         }
 
-        /* Footer */
+        .project-link:hover { gap: 0.7rem; }
+
+        /* FOOTER */
         footer {
+            position: relative;
+            z-index: 1;
             text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            padding: 3rem 5%;
             border-top: 1px solid var(--border);
-            margin-top: 2rem;
         }
 
-        .contact-links {
+        .footer-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--accent); }
+
+        .footer-copy {
+            font-size: 0.78rem;
+            color: var(--muted);
             margin-top: 1rem;
         }
-        
-        .contact-links a {
-            color: var(--accent);
-            margin: 0 10px;
-            text-decoration: none;
+
+        /* OPEN TO WORK BADGE */
+        .otw-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0,255,136,0.1);
+            border: 1px solid rgba(0,255,136,0.3);
+            color: var(--green);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 600px) {
-            .nav-links {
-                display: none; /* Simple hiding for mobile, ideally a hamburger menu */
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
+        .otw-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .cert-card { flex-direction: column; }
+        }
+
+        /* FADE IN */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">AR Alvi</div>
-        <div class="nav-links">
-            <a href="#about" data-key="nav_about">Om</a>
-            <a href="#experience" data-key="nav_exp">Erfaring</a>
-            <a href="#projects" data-key="nav_proj">Prosjekter</a>
-            <a href="#contact" data-key="nav_contact">Kontakt</a>
-        </div>
-        <button class="lang-toggle" onclick="toggleLanguage()">NO / EN</button>
+        <div class="logo">AR<span>.</span>Alvi</div>
+        <ul class="nav-links">
+            <li><a href="#about" data-key="nav_about">Om</a></li>
+            <li><a href="#experience" data-key="nav_exp">Erfaring</a></li>
+            <li><a href="#education" data-key="nav_edu">Utdanning</a></li>
+            <li><a href="#certifications" data-key="nav_cert">Sertifikater</a></li>
+            <li><a href="#projects" data-key="nav_proj">Prosjekter</a></li>
+            <li><a href="#contact" data-key="nav_contact">Kontakt</a></li>
+        </ul>
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
     </nav>
 
+    <!-- HERO -->
     <div class="hero">
-        <h1 data-key="hero_title">Abdul-Rafeh Alvi</h1>
-        <p data-key="hero_subtitle">M.S.C Cybersecurity | CompTIA Security+</p>
-        <p data-key="hero_desc">Cybersecurity Student & Analyst | Pentesting | Cloud Security</p>
-        <a href="#contact" class="btn" data-key="hero_btn">Kontakt meg</a>
+        <div class="otw-badge">
+            <div class="otw-dot"></div>
+            <span data-key="hero_otw">Åpen for jobb</span>
+        </div>
+        <div class="hero-tag" data-key="hero_tag">Cybersikkerhet · Oslo, Norge</div>
+        <h1>
+            <span class="name-accent">Abdul-Rafeh</span><br>Alvi
+        </h1>
+        <p class="hero-sub" data-key="hero_sub">
+            Masterstudent i Cybersikkerhet med CompTIA Security+. Spesialisert innen penetrasjonstesting, skysikkerhet og etisk hacking.
+        </p>
+        <div class="hero-badges">
+            <span class="badge badge-cyan">CompTIA Security+</span>
+            <span class="badge badge-purple">Penetration Testing</span>
+            <span class="badge badge-green">M.S.C Cybersecurity</span>
+            <span class="badge badge-cyan">TryHackMe</span>
+            <span class="badge badge-purple">HackTheBox</span>
+        </div>
+        <div class="hero-cta">
+            <a href="#contact" class="btn-primary" data-key="hero_btn_contact">Kontakt meg</a>
+            <a href="#projects" class="btn-outline" data-key="hero_btn_projects">Se prosjekter</a>
+        </div>
     </div>
 
-    <section id="about">
-        <h2 data-key="sec_about">Om meg</h2>
+    <!-- ABOUT -->
+    <section id="about" class="fade-in">
+        <div class="section-label" data-key="sec_label_about">Om</div>
+        <h2 data-key="sec_h2_about">Om meg</h2>
         <div class="card">
             <p data-key="about_text">
-                Masterstudent i Cybersikkerhet med en bachelor i samme fagfelt. Med en solid grunnmur i HTML, CSS, JavaScript, Python og databaser (MySQL). Jeg har kunnskaper i Pentesting, Cyberforsvar, Risikoanalyse og skyplatformer som AWS og Azure. Jeg har jobbet som studentveileder i fagene Etisk Hacking og Skysikkerhet og veiledet studenter gjennom labøvelser. Sterk lidenskap for kontinuerlig læring og problemløsning, en aktiv deltaker på platformer som TryHackMe og HackTheBox.
+                Masterstudent i Cybersikkerhet med en bachelor i samme fagfelt. Med en solid grunnmur i HTML, CSS, JavaScript, Python og databaser (MySQL). Jeg har kunnskaper i Pentesting, Cyberforsvar, Risikoanalyse og skyplatformer som AWS og Azure. Jeg har jobbet som studentveileder i fagene Etisk Hacking og Skysikkerhet og veiledet studenter gjennom labøvelser. Sterk lidenskap for kontinuerlig læring og problemløsning – en aktiv deltaker på plattformer som TryHackMe og HackTheBox.
             </p>
         </div>
     </section>
 
-    <section id="experience">
-        <h2 data-key="sec_exp">Erfaring</h2>
-        
+    <!-- EXPERIENCE -->
+    <section id="experience" class="fade-in">
+        <div class="section-label" data-key="sec_label_exp">Erfaring</div>
+        <h2 data-key="sec_h2_exp">Arbeidserfaring</h2>
+
         <div class="card">
-            <div class="card-header">
+            <div class="card-row">
                 <div>
-                    <div class="card-title">Kundeansvarlig (Teknisk Support)</div>
-                    <div class="card-subtitle">Telenor | Sep 2025 - Nå</div>
+                    <div class="card-title" data-key="exp1_title">Kundeansvarlig – Teknisk Support</div>
+                    <div class="card-company">Telenor</div>
                 </div>
+                <div class="card-date" data-key="exp1_date">Sep 2025 – Nå</div>
             </div>
             <ul>
-                <li data-key="exp_telenor_1">Support gjennom kundeservice, systematisk feilsøking og problemløsning</li>
-                <li data-key="exp_telenor_2">Feilsøking av internettlinjer og nettverksutstyr for å identifisere og løse feil</li>
-                <li data-key="exp_telenor_3">Håndterer komplekse tekniske utfordringer, inkludert nye og ukjente problemstillinger</li>
+                <li data-key="exp1_b1">Support gjennom kundeservice, systematisk feilsøking og problemløsning</li>
+                <li data-key="exp1_b2">Feilsøking av internettlinjer og nettverksutstyr for å identifisere og løse feil</li>
+                <li data-key="exp1_b3">Håndterer komplekse tekniske utfordringer, inkludert nye og ukjente problemstillinger</li>
+                <li data-key="exp1_b4">Utfører behovsanalyser og identifiserer salgsmuligheter</li>
             </ul>
         </div>
 
         <div class="card">
-            <div class="card-header">
+            <div class="card-row">
                 <div>
-                    <div class="card-title">Penetration Tester</div>
-                    <div class="card-subtitle">Bidder AS | Jan 2025 - Jun 2025</div>
+                    <div class="card-title" data-key="exp2_title">Penetration Tester</div>
+                    <div class="card-company">Bidder AS</div>
                 </div>
+                <div class="card-date" data-key="exp2_date">Jan 2025 – Jun 2025</div>
             </div>
             <ul>
-                <li data-key="exp_bidder_1">Utførte penetrasjonstesting av Android-applikasjon (statisk analyse med jadx-gui, automatisert skanning med MobSF, dynamisk analyse med Frida og Objection)</li>
-                <li data-key="exp_bidder_2">Konfigurerte Android-emulator i Android Studio for testing i kontrollert miljø</li>
-                <li data-key="exp_bidder_3">Dokumenterte funn og leverte forbedringsforslag til utviklingsteamet</li>
+                <li data-key="exp2_b1">Utførte penetrasjonstesting av Android-applikasjon (statisk analyse med jadx-gui, automatisert skanning med MobSF, dynamisk analyse med Frida og Objection)</li>
+                <li data-key="exp2_b2">Konfigurerte Android-emulator i Android Studio for testing i kontrollert miljø</li>
+                <li data-key="exp2_b3">Dokumenterte funn og leverte forbedringsforslag til utviklingsteamet</li>
             </ul>
         </div>
 
         <div class="card">
-            <div class="card-header">
+            <div class="card-row">
                 <div>
-                    <div class="card-title">Studentveileder (Etisk Hacking & Skysikkerhet)</div>
-                    <div class="card-subtitle">Kristiania University College | Aug 2024 - Des 2024</div>
+                    <div class="card-title" data-key="exp3_title">Studentveileder – Etisk Hacking &amp; Skysikkerhet</div>
+                    <div class="card-company">Kristiania University College</div>
                 </div>
+                <div class="card-date" data-key="exp3_date">Aug 2024 – Des 2024</div>
             </div>
             <ul>
-                <li data-key="exp_kristiania_1">Veiledet studenter i praktiske øvelser innen Etisk Hacking og Skysikkerhet</li>
-                <li data-key="exp_kristiania_2">Bidro med feilsøking og løsning av tekniske utfordringer i laboppgaver</li>
-                <li data-key="exp_kristiania_3">Bistod studenter i å forstå relevante verktøy, teknikker og konsepter</li>
+                <li data-key="exp3_b1">Veiledet studenter i praktiske øvelser innen Etisk Hacking og Skysikkerhet</li>
+                <li data-key="exp3_b2">Bidro med feilsøking og løsning av tekniske utfordringer i laboppgaver</li>
+                <li data-key="exp3_b3">Bistod studenter i å forstå relevante verktøy, teknikker og konsepter</li>
             </ul>
         </div>
-    </section>
 
-    <section id="education">
-        <h2 data-key="sec_edu">Utdanning</h2>
         <div class="card">
-            <div class="card-title">Master's degree, Cybersecurity</div>
-            <div class="card-subtitle">Kristiania | Aug 2025 - Jun 2027</div>
-        </div>
-        <div class="card">
-            <div class="card-title">Bachelor's degree, Cyber Security</div>
-            <div class="card-subtitle">Kristiania | Aug 2022 - Jun 2025</div>
+            <div class="card-row">
+                <div>
+                    <div class="card-title" data-key="exp4_title">Merkevarerepresentant</div>
+                    <div class="card-company">Ahead Connect</div>
+                </div>
+                <div class="card-date" data-key="exp4_date">Okt 2023 – Sep 2025</div>
+            </div>
         </div>
     </section>
 
-    <section id="certifications">
-        <h2 data-key="sec_certs">Sertifiseringer</h2>
+    <!-- EDUCATION -->
+    <section id="education" class="fade-in">
+        <div class="section-label" data-key="sec_label_edu">Utdanning</div>
+        <h2 data-key="sec_h2_edu">Utdanning</h2>
+
         <div class="card">
-            <div class="card-title">CompTIA Security+ ce Certification</div>
-            <div class="card-subtitle">CompTIA | Utstedt Aug 2025</div>
-            <p data-key="cert_desc">Internasjonalt anerkjent sertifisering som validerer min kunnskap innen cybersikkerhet og understøtter min kompetanse. Fungerer som en solid grunnmur jeg er klar til å bygge videre på gjennom erfaring.</p>
+            <div class="card-row">
+                <div>
+                    <div class="card-title" data-key="edu1_title">Master i Cybersikkerhet</div>
+                    <div class="card-company">Høyskolen Kristiania</div>
+                </div>
+                <div class="card-date">Aug 2025 – Jun 2027</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-row">
+                <div>
+                    <div class="card-title" data-key="edu2_title">Bachelor i Cybersikkerhet</div>
+                    <div class="card-company">Høyskolen Kristiania</div>
+                </div>
+                <div class="card-date">Aug 2022 – Jun 2025</div>
+            </div>
         </div>
     </section>
 
-    <section id="skills">
-        <h2 data-key="sec_skills">Ferdigheter</h2>
+    <!-- CERTIFICATIONS -->
+    <section id="certifications" class="fade-in">
+        <div class="section-label" data-key="sec_label_cert">Sertifikater</div>
+        <h2 data-key="sec_h2_cert">Sertifiseringer</h2>
+
+        <div class="cert-card">
+            <div class="cert-icon">🛡️</div>
+            <div>
+                <div class="cert-title">CompTIA Security+ ce Certification</div>
+                <div class="cert-issuer">CompTIA · <span data-key="cert_issued">Utstedt</span> Aug 2025 · <span data-key="cert_expires">Utløper</span> Aug 2028</div>
+                <p class="cert-desc" data-key="cert_desc">
+                    Internasjonalt anerkjent sertifisering som validerer kompetanse innen cybersikkerhet, godkjent av det amerikanske forsvarsdepartementet (DoD 8570). Dekker nettverkssikkerhet, kryptering, trusselanalyse og risikohåndtering – og fungerer som et solid fundament for videre spesialisering.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="fade-in">
+        <div class="section-label" data-key="sec_label_skills">Ferdigheter</div>
+        <h2 data-key="sec_h2_skills">Tekniske ferdigheter</h2>
         <div class="skills-grid">
             <span class="skill-tag">Pentesting</span>
             <span class="skill-tag">Linux</span>
@@ -355,41 +676,258 @@
             <span class="skill-tag">Python</span>
             <span class="skill-tag">MySQL</span>
             <span class="skill-tag">JavaScript</span>
-            <span class="skill-tag">HTML & CSS</span>
-            <span class="skill-tag">VMWare</span>
+            <span class="skill-tag">HTML &amp; CSS</span>
+            <span class="skill-tag">VMware</span>
             <span class="skill-tag">VirtualBox</span>
+            <span class="skill-tag">Kali Linux</span>
+            <span class="skill-tag">Frida</span>
+            <span class="skill-tag">MobSF</span>
+            <span class="skill-tag">jadx-gui</span>
             <span class="skill-tag">Cyberforsvar</span>
             <span class="skill-tag">Risikoanalyse</span>
+            <span class="skill-tag">GitHub Actions</span>
+            <span class="skill-tag">TryHackMe</span>
         </div>
     </section>
 
-    <section id="projects">
-        <h2 data-key="sec_proj">Prosjekter (GitHub)</h2>
+    <!-- PROJECTS -->
+    <section id="projects" class="fade-in">
+        <div class="section-label" data-key="sec_label_proj">Prosjekter</div>
+        <h2 data-key="sec_h2_proj">GitHub-prosjekter</h2>
         <div class="projects-grid">
+
             <div class="project-card">
-                <a href="https://github.com/abdulr15352/Deploy-Azure-WebApp" class="project-link">View Repo &rarr;</a>
-                <span class="project-title">Deploy-Azure-WebApp</span>
-                <p class="project-desc">Deploy Simple WebApps</p>
+                <div class="project-name">Deploy-Azure-WebApp</div>
+                <p class="project-desc" data-key="proj1_desc">Deploy enkle webapplikasjoner til Azure cloud-plattformen.</p>
+                <a href="https://github.com/abdulr15352/Deploy-Azure-WebApp" target="_blank" class="project-link" data-key="proj_link">View Repo →</a>
             </div>
+
             <div class="project-card">
-                <a href="https://github.com/abdulr15352/Deploy-application-firewall" class="project-link">View Repo &rarr;</a>
-                <span class="project-title">Deploy-application-firewall</span>
-                <p class="project-desc">Deploy an application behind Firewall on Azure</p>
+                <div class="project-name">Deploy-application-firewall</div>
+                <p class="project-desc" data-key="proj2_desc">Deploy en webapplikasjon bak en brannmur på Azure.</p>
+                <a href="https://github.com/abdulr15352/Deploy-application-firewall" target="_blank" class="project-link" data-key="proj_link2">View Repo →</a>
             </div>
+
             <div class="project-card">
-                <a href="https://github.com/abdulr15352/Bank_app" class="project-link">View Repo &rarr;</a>
-                <span class="project-title">Bank_app</span>
-                <p class="project-desc">Programming a banking application with totp for security</p>
+                <div class="project-name">Bank_app</div>
+                <p class="project-desc" data-key="proj3_desc">Bankapplikasjon med TOTP for to-faktor autentisering og sikkerhet.</p>
+                <a href="https://github.com/abdulr15352/Bank_app" target="_blank" class="project-link" data-key="proj_link3">View Repo →</a>
             </div>
+
             <div class="project-card">
-                <a href="https://github.com/abdulr15352/Notes_app" class="project-link">View Repo &rarr;</a>
-                <span class="project-title">Notes_app</span>
-                <p class="project-desc">Implemented a DevOps pipeline for the note-taking app using GitHub Actions</p>
+                <div class="project-name">Notes_app</div>
+                <p class="project-desc" data-key="proj4_desc">DevOps-pipeline for notat-app med GitHub Actions for automatisk bygging og deployment til Azure VM.</p>
+                <a href="https://github.com/abdulr15352/Notes_app" target="_blank" class="project-link" data-key="proj_link4">View Repo →</a>
             </div>
+
             <div class="project-card">
-                <a href="https://github.com/abdulr15352/Network_Scanner" class="project-link">View Repo &rarr;</a>
-                <span class="project-title">Network_Scanner</span>
-                <p class="project-desc">Programming a Network Scanner</p>
+                <div class="project-name">Network_Scanner</div>
+                <p class="project-desc" data-key="proj5_desc">Nettverksskanner programmert i Python for å kartlegge enheter og tjenester.</p>
+                <a href="https://github.com/abdulr15352/Network_Scanner" target="_blank" class="project-link" data-key="proj_link5">View Repo →</a>
             </div>
+
+            <div class="project-card">
+                <div class="project-name">ESP32-TEMP-ALERT</div>
+                <p class="project-desc" data-key="proj6_desc">ESP32 temperatursensor med e-postvarsler ved grenseverdier.</p>
+                <a href="https://github.com/abdulr15352/ESP32-TEMP-ALERT" target="_blank" class="project-link" data-key="proj_link6">View Repo →</a>
+            </div>
+
+            <div class="project-card">
+                <div class="project-name">MAC_CHANGER</div>
+                <p class="project-desc" data-key="proj7_desc">Python-script for å endre MAC-adresse på nettverksgrensesnitt.</p>
+                <a href="https://github.com/abdulr15352/MAC_CHANGER" target="_blank" class="project-link" data-key="proj_link7">View Repo →</a>
+            </div>
+
+            <div class="project-card">
+                <div class="project-name">Pentest_Report</div>
+                <p class="project-desc" data-key="proj8_desc">Dokumentasjon og funn fra penetrasjonstesting av Android-applikasjon.</p>
+                <a href="https://github.com/abdulr15352/Pentest_Report" target="_blank" class="project-link" data-key="proj_link8">View Repo →</a>
+            </div>
+
         </div>
     </section>
+
+    <!-- FOOTER / CONTACT -->
+    <footer id="contact">
+        <div class="footer-name">Abdul-Rafeh Alvi</div>
+        <p style="color:var(--muted);font-size:0.9rem;" data-key="footer_role">M.S.C Cybersecurity | CompTIA Security+</p>
+        <div class="footer-links">
+            <a href="mailto:abdulr15352@gmail.com">abdulr15352@gmail.com</a>
+            <a href="tel:+4793951945">+47 939 51 945</a>
+            <a href="https://www.linkedin.com/in/abdul-rafeh-alvi-8b9a00290" target="_blank">LinkedIn</a>
+            <a href="https://github.com/abdulr15352" target="_blank">GitHub</a>
+        </div>
+        <p class="footer-copy" data-key="footer_copy">© 2026 Abdul-Rafeh Alvi · Oslo, Norge</p>
+    </footer>
+
+    <script>
+        // ── TRANSLATIONS ──────────────────────────────────────────────
+        const T = {
+            no: {
+                nav_about: "Om",
+                nav_exp: "Erfaring",
+                nav_edu: "Utdanning",
+                nav_cert: "Sertifikater",
+                nav_proj: "Prosjekter",
+                nav_contact: "Kontakt",
+                hero_otw: "Åpen for jobb",
+                hero_tag: "Cybersikkerhet · Oslo, Norge",
+                hero_sub: "Masterstudent i Cybersikkerhet med CompTIA Security+. Spesialisert innen penetrasjonstesting, skysikkerhet og etisk hacking.",
+                hero_btn_contact: "Kontakt meg",
+                hero_btn_projects: "Se prosjekter",
+                sec_label_about: "Om",
+                sec_h2_about: "Om meg",
+                about_text: "Masterstudent i Cybersikkerhet med en bachelor i samme fagfelt. Med en solid grunnmur i HTML, CSS, JavaScript, Python og databaser (MySQL). Jeg har kunnskaper i Pentesting, Cyberforsvar, Risikoanalyse og skyplatformer som AWS og Azure. Jeg har jobbet som studentveileder i fagene Etisk Hacking og Skysikkerhet og veiledet studenter gjennom labøvelser. Sterk lidenskap for kontinuerlig læring og problemløsning – en aktiv deltaker på plattformer som TryHackMe og HackTheBox.",
+                sec_label_exp: "Erfaring",
+                sec_h2_exp: "Arbeidserfaring",
+                exp1_title: "Kundeansvarlig – Teknisk Support",
+                exp1_date: "Sep 2025 – Nå",
+                exp1_b1: "Support gjennom kundeservice, systematisk feilsøking og problemløsning",
+                exp1_b2: "Feilsøking av internettlinjer og nettverksutstyr for å identifisere og løse feil",
+                exp1_b3: "Håndterer komplekse tekniske utfordringer, inkludert nye og ukjente problemstillinger",
+                exp1_b4: "Utfører behovsanalyser og identifiserer salgsmuligheter",
+                exp2_title: "Penetration Tester",
+                exp2_date: "Jan 2025 – Jun 2025",
+                exp2_b1: "Utførte penetrasjonstesting av Android-applikasjon (statisk analyse med jadx-gui, automatisert skanning med MobSF, dynamisk analyse med Frida og Objection)",
+                exp2_b2: "Konfigurerte Android-emulator i Android Studio for testing i kontrollert miljø",
+                exp2_b3: "Dokumenterte funn og leverte forbedringsforslag til utviklingsteamet",
+                exp3_title: "Studentveileder – Etisk Hacking & Skysikkerhet",
+                exp3_date: "Aug 2024 – Des 2024",
+                exp3_b1: "Veiledet studenter i praktiske øvelser innen Etisk Hacking og Skysikkerhet",
+                exp3_b2: "Bidro med feilsøking og løsning av tekniske utfordringer i laboppgaver",
+                exp3_b3: "Bistod studenter i å forstå relevante verktøy, teknikker og konsepter",
+                exp4_title: "Merkevarerepresentant",
+                exp4_date: "Okt 2023 – Sep 2025",
+                sec_label_edu: "Utdanning",
+                sec_h2_edu: "Utdanning",
+                edu1_title: "Master i Cybersikkerhet",
+                edu2_title: "Bachelor i Cybersikkerhet",
+                sec_label_cert: "Sertifikater",
+                sec_h2_cert: "Sertifiseringer",
+                cert_issued: "Utstedt",
+                cert_expires: "Utløper",
+                cert_desc: "Internasjonalt anerkjent sertifisering som validerer kompetanse innen cybersikkerhet, godkjent av det amerikanske forsvarsdepartementet (DoD 8570). Dekker nettverkssikkerhet, kryptering, trusselanalyse og risikohåndtering – og fungerer som et solid fundament for videre spesialisering.",
+                sec_label_skills: "Ferdigheter",
+                sec_h2_skills: "Tekniske ferdigheter",
+                sec_label_proj: "Prosjekter",
+                sec_h2_proj: "GitHub-prosjekter",
+                proj1_desc: "Deploy enkle webapplikasjoner til Azure cloud-plattformen.",
+                proj2_desc: "Deploy en webapplikasjon bak en brannmur på Azure.",
+                proj3_desc: "Bankapplikasjon med TOTP for to-faktor autentisering og sikkerhet.",
+                proj4_desc: "DevOps-pipeline for notat-app med GitHub Actions for automatisk bygging og deployment til Azure VM.",
+                proj5_desc: "Nettverksskanner programmert i Python for å kartlegge enheter og tjenester.",
+                proj6_desc: "ESP32 temperatursensor med e-postvarsler ved grenseverdier.",
+                proj7_desc: "Python-script for å endre MAC-adresse på nettverksgrensesnitt.",
+                proj8_desc: "Dokumentasjon og funn fra penetrasjonstesting av Android-applikasjon.",
+                proj_link: "Se repo →",
+                proj_link2: "Se repo →",
+                proj_link3: "Se repo →",
+                proj_link4: "Se repo →",
+                proj_link5: "Se repo →",
+                proj_link6: "Se repo →",
+                proj_link7: "Se repo →",
+                proj_link8: "Se repo →",
+                footer_role: "M.S.C Cybersikkerhet | CompTIA Security+",
+                footer_copy: "© 2026 Abdul-Rafeh Alvi · Oslo, Norge"
+            },
+            en: {
+                nav_about: "About",
+                nav_exp: "Experience",
+                nav_edu: "Education",
+                nav_cert: "Certifications",
+                nav_proj: "Projects",
+                nav_contact: "Contact",
+                hero_otw: "Open to Work",
+                hero_tag: "Cybersecurity · Oslo, Norway",
+                hero_sub: "Master's student in Cybersecurity with CompTIA Security+. Specialised in penetration testing, cloud security and ethical hacking.",
+                hero_btn_contact: "Contact Me",
+                hero_btn_projects: "View Projects",
+                sec_label_about: "About",
+                sec_h2_about: "About Me",
+                about_text: "Master's student in Cybersecurity with a bachelor's degree in the same field. With a solid foundation in HTML, CSS, JavaScript, Python and databases (MySQL). I have knowledge in Pentesting, Cyber Defense, Risk Analysis and cloud platforms like AWS and Azure. I have worked as a student mentor in Ethical Hacking and Cloud Security, guiding students through lab exercises. Strong passion for continuous learning and problem-solving – an active participant on platforms like TryHackMe and HackTheBox.",
+                sec_label_exp: "Experience",
+                sec_h2_exp: "Work Experience",
+                exp1_title: "Customer Account Manager – Technical Support",
+                exp1_date: "Sep 2025 – Present",
+                exp1_b1: "Providing professional support through customer service, systematic troubleshooting and problem-solving",
+                exp1_b2: "Troubleshooting internet lines and network equipment to identify and resolve faults",
+                exp1_b3: "Handling complex technical challenges, including new and previously unseen issues",
+                exp1_b4: "Conducting needs analyses and identifying sales opportunities",
+                exp2_title: "Penetration Tester",
+                exp2_date: "Jan 2025 – Jun 2025",
+                exp2_b1: "Performed penetration testing of Android application (static analysis with jadx-gui, automated scanning with MobSF, dynamic analysis with Frida and Objection)",
+                exp2_b2: "Configured Android emulator in Android Studio for testing in a controlled environment",
+                exp2_b3: "Documented findings and delivered improvement recommendations to the development team",
+                exp3_title: "Student Mentor – Ethical Hacking & Cloud Security",
+                exp3_date: "Aug 2024 – Dec 2024",
+                exp3_b1: "Guided students through practical exercises in Ethical Hacking and Cloud Security",
+                exp3_b2: "Assisted with troubleshooting and resolving technical challenges in lab tasks",
+                exp3_b3: "Helped students understand relevant tools, techniques and concepts",
+                exp4_title: "Brand Ambassador",
+                exp4_date: "Oct 2023 – Sep 2025",
+                sec_label_edu: "Education",
+                sec_h2_edu: "Education",
+                edu1_title: "Master's degree, Cybersecurity",
+                edu2_title: "Bachelor's degree, Cyber Security",
+                sec_label_cert: "Certifications",
+                sec_h2_cert: "Certifications",
+                cert_issued: "Issued",
+                cert_expires: "Expires",
+                cert_desc: "Internationally recognised certification validating cybersecurity competence, approved by the US Department of Defense (DoD 8570). Covers network security, cryptography, threat analysis and risk management – serving as a solid foundation for further specialisation.",
+                sec_label_skills: "Skills",
+                sec_h2_skills: "Technical Skills",
+                sec_label_proj: "Projects",
+                sec_h2_proj: "GitHub Projects",
+                proj1_desc: "Deploy simple web applications to the Azure cloud platform.",
+                proj2_desc: "Deploy a web application behind a firewall on Azure.",
+                proj3_desc: "Banking application with TOTP for two-factor authentication and security.",
+                proj4_desc: "DevOps pipeline for a note-taking app using GitHub Actions for automatic build and deployment to an Azure VM.",
+                proj5_desc: "Network scanner programmed in Python to map devices and services.",
+                proj6_desc: "ESP32 temperature sensor with email alerts at threshold values.",
+                proj7_desc: "Python script to change MAC address on network interfaces.",
+                proj8_desc: "Documentation and findings from penetration testing of an Android application.",
+                proj_link: "View Repo →",
+                proj_link2: "View Repo →",
+                proj_link3: "View Repo →",
+                proj_link4: "View Repo →",
+                proj_link5: "View Repo →",
+                proj_link6: "View Repo →",
+                proj_link7: "View Repo →",
+                proj_link8: "View Repo →",
+                footer_role: "M.S.C Cybersecurity | CompTIA Security+",
+                footer_copy: "© 2026 Abdul-Rafeh Alvi · Oslo, Norway"
+            }
+        };
+
+        let currentLang = 'no';
+
+        function applyLanguage(lang) {
+            const dict = T[lang];
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (dict[key] !== undefined) {
+                    el.textContent = dict[key];
+                }
+            });
+            document.documentElement.lang = lang === 'no' ? 'nb' : 'en';
+            document.getElementById('langBtn').textContent = lang === 'no' ? 'EN' : 'NO';
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'no' ? 'en' : 'no';
+            applyLanguage(currentLang);
+        }
+
+        // ── SCROLL FADE IN ────────────────────────────────────────────
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
