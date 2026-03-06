@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdul-Rafeh Alvi | Cybersecurity Portfolio</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8; /* Cyan */
+            --accent-hover: #0ea5e9;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: rgba(15, 23, 42, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .lang-toggle:hover {
+            background: var(--border);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--bg-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Sections */
+        section {
+            padding: 3rem 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .card-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .card ul {
+            list-style-position: inside;
+            color: var(--text-muted);
+        }
+
+        .card li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .project-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .project-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .project-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        .contact-links {
+            margin-top: 1rem;
+        }
+        
+        .contact-links a {
+            color: var(--accent);
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .nav-links {
+                display: none; /* Simple hiding for mobile, ideally a hamburger menu */
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">AR Alvi</div>
+        <div class="nav-links">
+            <a href="#about" data-key="nav_about">Om</a>
+            <a href="#experience" data-key="nav_exp">Erfaring</a>
+            <a href="#projects" data-key="nav_proj">Prosjekter</a>
+            <a href="#contact" data-key="nav_contact">Kontakt</a>
+        </div>
+        <button class="lang-toggle" onclick="toggleLanguage()">NO / EN</button>
+    </nav>
+
+    <div class="hero">
+        <h1 data-key="hero_title">Abdul-Rafeh Alvi</h1>
+        <p data-key="hero_subtitle">M.S.C Cybersecurity | CompTIA Security+</p>
+        <p data-key="hero_desc">Cybersecurity Student & Analyst | Pentesting | Cloud Security</p>
+        <a href="#contact" class="btn" data-key="hero_btn">Kontakt meg</a>
+    </div>
+
+    <section id="about">
+        <h2 data-key="sec_about">Om meg</h2>
+        <div class="card">
+            <p data-key="about_text">
+                Masterstudent i Cybersikkerhet med en bachelor i samme fagfelt. Med en solid grunnmur i HTML, CSS, JavaScript, Python og databaser (MySQL). Jeg har kunnskaper i Pentesting, Cyberforsvar, Risikoanalyse og skyplatformer som AWS og Azure. Jeg har jobbet som studentveileder i fagene Etisk Hacking og Skysikkerhet og veiledet studenter gjennom labøvelser. Sterk lidenskap for kontinuerlig læring og problemløsning, en aktiv deltaker på platformer som TryHackMe og HackTheBox.
+            </p>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2 data-key="sec_exp">Erfaring</h2>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Kundeansvarlig (Teknisk Support)</div>
+                    <div class="card-subtitle">Telenor | Sep 2025 - Nå</div>
+                </div>
+            </div>
+            <ul>
+                <li data-key="exp_telenor_1">Support gjennom kundeservice, systematisk feilsøking og problemløsning</li>
+                <li data-key="exp_telenor_2">Feilsøking av internettlinjer og nettverksutstyr for å identifisere og løse feil</li>
+                <li data-key="exp_telenor_3">Håndterer komplekse tekniske utfordringer, inkludert nye og ukjente problemstillinger</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Penetration Tester</div>
+                    <div class="card-subtitle">Bidder AS | Jan 2025 - Jun 2025</div>
+                </div>
+            </div>
+            <ul>
+                <li data-key="exp_bidder_1">Utførte penetrasjonstesting av Android-applikasjon (statisk analyse med jadx-gui, automatisert skanning med MobSF, dynamisk analyse med Frida og Objection)</li>
+                <li data-key="exp_bidder_2">Konfigurerte Android-emulator i Android Studio for testing i kontrollert miljø</li>
+                <li data-key="exp_bidder_3">Dokumenterte funn og leverte forbedringsforslag til utviklingsteamet</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Studentveileder (Etisk Hacking & Skysikkerhet)</div>
+                    <div class="card-subtitle">Kristiania University College | Aug 2024 - Des 2024</div>
+                </div>
+            </div>
+            <ul>
+                <li data-key="exp_kristiania_1">Veiledet studenter i praktiske øvelser innen Etisk Hacking og Skysikkerhet</li>
+                <li data-key="exp_kristiania_2">Bidro med feilsøking og løsning av tekniske utfordringer i laboppgaver</li>
+                <li data-key="exp_kristiania_3">Bistod studenter i å forstå relevante verktøy, teknikker og konsepter</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2 data-key="sec_edu">Utdanning</h2>
+        <div class="card">
+            <div class="card-title">Master's degree, Cybersecurity</div>
+            <div class="card-subtitle">Kristiania | Aug 2025 - Jun 2027</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Bachelor's degree, Cyber Security</div>
+            <div class="card-subtitle">Kristiania | Aug 2022 - Jun 2025</div>
+        </div>
+    </section>
+
+    <section id="certifications">
+        <h2 data-key="sec_certs">Sertifiseringer</h2>
+        <div class="card">
+            <div class="card-title">CompTIA Security+ ce Certification</div>
+            <div class="card-subtitle">CompTIA | Utstedt Aug 2025</div>
+            <p data-key="cert_desc">Internasjonalt anerkjent sertifisering som validerer min kunnskap innen cybersikkerhet og understøtter min kompetanse. Fungerer som en solid grunnmur jeg er klar til å bygge videre på gjennom erfaring.</p>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 data-key="sec_skills">Ferdigheter</h2>
+        <div class="skills-grid">
+            <span class="skill-tag">Pentesting</span>
+            <span class="skill-tag">Linux</span>
+            <span class="skill-tag">Microsoft Azure</span>
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">HTML & CSS</span>
+            <span class="skill-tag">VMWare</span>
+            <span class="skill-tag">VirtualBox</span>
+            <span class="skill-tag">Cyberforsvar</span>
+            <span class="skill-tag">Risikoanalyse</span>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 data-key="sec_proj">Prosjekter (GitHub)</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <a href="https://github.com/abdulr15352/Deploy-Azure-WebApp" class="project-link">View Repo &rarr;</a>
+                <span class="project-title">Deploy-Azure-WebApp</span>
+                <p class="project-desc">Deploy Simple WebApps</p>
+            </div>
+            <div class="project-card">
+                <a href="https://github.com/abdulr15352/Deploy-application-firewall" class="project-link">View Repo &rarr;</a>
+                <span class="project-title">Deploy-application-firewall</span>
+                <p class="project-desc">Deploy an application behind Firewall on Azure</p>
+            </div>
+            <div class="project-card">
+                <a href="https://github.com/abdulr15352/Bank_app" class="project-link">View Repo &rarr;</a>
+                <span class="project-title">Bank_app</span>
+                <p class="project-desc">Programming a banking application with totp for security</p>
+            </div>
+            <div class="project-card">
+                <a href="https://github.com/abdulr15352/Notes_app" class="project-link">View Repo &rarr;</a>
+                <span class="project-title">Notes_app</span>
+                <p class="project-desc">Implemented a DevOps pipeline for the note-taking app using GitHub Actions</p>
+            </div>
+            <div class="project-card">
+                <a href="https://github.com/abdulr15352/Network_Scanner" class="project-link">View Repo &rarr;</a>
+                <span class="project-title">Network_Scanner</span>
+                <p class="project-desc">Programming a Network Scanner</p>
+            </div>
+        </div>
+    </section>
