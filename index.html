@@ -750,6 +750,82 @@
             to   { opacity: 1; transform: scale(1); }
         }
 
+        /* ── HACKER INTRO ────────────────────────── */
+        #hacker-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.2s ease;
+        }
+
+        #hacker-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #matrix-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #hacker-terminal {
+            position: relative;
+            z-index: 2;
+            font-family: var(--font-mono);
+            font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+            color: #00ff88;
+            text-shadow: 0 0 8px #00ff88;
+            max-width: 680px;
+            width: 90%;
+            background: rgba(0,0,0,0.75);
+            border: 1px solid rgba(0,255,136,0.25);
+            border-radius: 8px;
+            padding: 2rem 2.2rem;
+            line-height: 1.8;
+        }
+
+        #hacker-terminal .t-line { display: block; white-space: pre-wrap; }
+        #hacker-terminal .t-prompt { color: #00d4ff; }
+        #hacker-terminal .t-warn   { color: #ffaa00; }
+        #hacker-terminal .t-ok     { color: #00ff88; }
+        #hacker-terminal .t-dim    { color: #3a5a4a; }
+        #hacker-terminal .t-name   { color: #fff; font-weight: 700; font-size: 1.4em; letter-spacing: 0.05em; }
+        #hacker-terminal .t-cursor {
+            display: inline-block;
+            width: 9px; height: 1.1em;
+            background: #00ff88;
+            vertical-align: text-bottom;
+            animation: blink 0.7s step-end infinite;
+        }
+
+        #skip-btn {
+            position: relative;
+            z-index: 3;
+            margin-top: 1.4rem;
+            background: transparent;
+            border: 1px solid rgba(0,255,136,0.3);
+            color: rgba(0,255,136,0.5);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            padding: 5px 16px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        #skip-btn:hover {
+            border-color: rgba(0,255,136,0.8);
+            color: #00ff88;
+        }
+
         .fade-in {
             opacity: 0;
             transform: translateY(28px);
@@ -791,6 +867,15 @@
     </style>
 </head>
 <body>
+
+<!-- HACKER INTRO OVERLAY -->
+<div id="hacker-overlay">
+    <canvas id="matrix-canvas"></canvas>
+    <div id="hacker-terminal">
+        <span id="terminal-output"></span><span class="t-cursor" id="t-cursor"></span>
+    </div>
+    <button id="skip-btn" onclick="skipIntro()">[ SKIP ]</button>
+</div>
 
 <div id="scroll-progress"></div>
 
@@ -1154,6 +1239,99 @@
 </footer>
 
 <script>
+// ── HACKER INTRO ──────────────────────────────────────────────────────────────
+(function () {
+    const overlay  = document.getElementById('hacker-overlay');
+    const canvas   = document.getElementById('matrix-canvas');
+    const ctx      = canvas.getContext('2d');
+    const output   = document.getElementById('terminal-output');
+    const cursor   = document.getElementById('t-cursor');
+
+    // Matrix rain setup
+    const CHARS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/\\|{}[]!@#$%^&*';
+    let cols, drops;
+
+    function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        cols  = Math.floor(canvas.width / 18);
+        drops = Array(cols).fill(1);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(0,0,0,0.055)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < cols; i++) {
+            const ch = CHARS[Math.floor(Math.random() * CHARS.length)];
+            // Head of stream — bright white
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '14px monospace';
+            ctx.fillText(ch, i * 18, drops[i] * 18);
+            // Trail — green
+            ctx.fillStyle = i % 3 === 0 ? '#00ff88' : '#008844';
+            ctx.fillText(CHARS[Math.floor(Math.random() * CHARS.length)], i * 18, (drops[i] - 1) * 18);
+            if (drops[i] * 18 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        }
+    }
+
+    let matrixInterval = setInterval(drawMatrix, 40);
+
+    // Terminal typing sequence
+    const lines = [
+        { text: '> Initializing secure connection...', cls: 't-prompt', delay: 0 },
+        { text: '> Target: abdulr15352.github.io', cls: 't-prompt', delay: 700 },
+        { text: '[ OK ] Connection established', cls: 't-ok', delay: 1400 },
+        { text: '> Scanning credentials...', cls: 't-prompt', delay: 2000 },
+        { text: '  CompTIA Security+   ████████████  VERIFIED', cls: 't-dim', delay: 2600 },
+        { text: '  TryHackMe Top 3%    ████████████  VERIFIED', cls: 't-dim', delay: 3100 },
+        { text: '  M.S.C Cybersecurity ████████████  VERIFIED', cls: 't-dim', delay: 3600 },
+        { text: '[ OK ] Identity confirmed', cls: 't-ok', delay: 4200 },
+        { text: '> Loading profile...', cls: 't-prompt', delay: 4800 },
+        { text: '[ WARN ] High-value target detected', cls: 't-warn', delay: 5500 },
+        { text: '', cls: '', delay: 6000 },
+        { text: '  ██████████████████████████████', cls: 't-ok', delay: 6200 },
+        { text: '     ABDUL-RAFEH ALVI', cls: 't-name', delay: 6500 },
+        { text: '     Cybersecurity · Oslo, Norge', cls: 't-ok', delay: 6800 },
+        { text: '  ██████████████████████████████', cls: 't-ok', delay: 7000 },
+        { text: '', cls: '', delay: 7300 },
+        { text: '> Access granted. Launching portfolio...', cls: 't-prompt', delay: 7700 },
+    ];
+
+    let lineIndex = 0;
+    const timers = [];
+
+    function scheduleLines() {
+        lines.forEach((line, i) => {
+            const t = setTimeout(() => {
+                const span = document.createElement('span');
+                span.className = 't-line ' + line.cls;
+                span.textContent = line.text;
+                output.appendChild(span);
+                output.parentElement.scrollTop = output.parentElement.scrollHeight;
+            }, line.delay);
+            timers.push(t);
+        });
+    }
+
+    scheduleLines();
+
+    // Auto-dismiss after 10 seconds
+    const dismissTimer = setTimeout(dismissIntro, 10000);
+    timers.push(dismissTimer);
+
+    function dismissIntro() {
+        timers.forEach(clearTimeout);
+        clearInterval(matrixInterval);
+        overlay.classList.add('fade-out');
+        setTimeout(() => { overlay.remove(); }, 1300);
+    }
+
+    window.skipIntro = function () { dismissIntro(); };
+})();
+
 // ── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
     no: {
