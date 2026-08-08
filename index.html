@@ -9,6 +9,7 @@
   <meta property="og:description" content="Praktisk IT-drift, skysikkerhet, sikkerhetstesting og risikostyring.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://abdulr15352.github.io/">
+  <meta property="og:image" content="https://abdulr15352.github.io/assets/abdul-rafeh-alvi.jpg">
   <title>Abdul-Rafeh Alvi | IT og cybersikkerhet</title>
   <style>
     :root {
@@ -76,8 +77,9 @@
     .button.primary:hover { background: var(--green); }
     .button.secondary:hover { background: var(--white); }
 
-    .profile-note { position: relative; padding: 1.4rem; background: var(--green); color: var(--paper); border-radius: var(--radius); transform: rotate(1.2deg); box-shadow: 14px 14px 0 var(--paper-deep); }
-    .profile-note::before { content: "AR"; display: grid; place-items: center; width: 76px; height: 76px; margin-bottom: 2.5rem; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; font-family: Georgia, serif; font-size: 1.45rem; }
+    .profile-note { position: relative; overflow: hidden; background: var(--green); color: var(--paper); border-radius: var(--radius); transform: rotate(1.2deg); box-shadow: 14px 14px 0 var(--paper-deep); }
+    .profile-photo { display: block; width: 100%; height: clamp(320px, 34vw, 430px); object-fit: cover; object-position: 56% 45%; }
+    .profile-content { padding: 1.35rem 1.4rem 1.5rem; }
     .profile-note p { margin-bottom: .35rem; }
     .profile-note strong { font-size: 1.08rem; }
     .profile-note small { color: rgba(255,255,255,.72); }
@@ -187,6 +189,7 @@
     "@type": "Person",
     "name": "Abdul-Rafeh Alvi",
     "url": "https://abdulr15352.github.io/",
+    "image": "https://abdulr15352.github.io/assets/abdul-rafeh-alvi.jpg",
     "jobTitle": "Førstekonsulent IT",
     "worksFor": { "@type": "Organization", "name": "NOKUT" },
     "alumniOf": { "@type": "CollegeOrUniversity", "name": "Høyskolen Kristiania" },
@@ -227,9 +230,12 @@
           </div>
         </div>
         <aside class="profile-note" aria-label="Kort profil">
-          <p><strong>Abdul-Rafeh Alvi</strong></p>
-          <p><small>Førstekonsulent IT i NOKUT<br>Masterstudent i cybersikkerhet</small></p>
-          <div class="status"><span class="status-dot" aria-hidden="true"></span> Åpen for relevante sikkerhetsroller</div>
+          <img class="profile-photo" src="assets/abdul-rafeh-alvi.jpg" alt="Portrett av Abdul-Rafeh Alvi" width="1920" height="1080" fetchpriority="high" decoding="async">
+          <div class="profile-content">
+            <p><strong>Abdul-Rafeh Alvi</strong></p>
+            <p><small>Førstekonsulent IT i NOKUT<br>Masterstudent i cybersikkerhet</small></p>
+            <div class="status"><span class="status-dot" aria-hidden="true"></span> Åpen for relevante sikkerhetsroller</div>
+          </div>
         </aside>
       </div>
     </section>
