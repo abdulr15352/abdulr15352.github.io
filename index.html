@@ -1,1533 +1,391 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nb">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abdul-Rafeh Alvi | Cybersecurity Portfolio</title>
-    <style>
-        :root {
-            --bg: #060b12;
-            --surface: #0a1320;
-            --card: #0d1a2d;
-            --border: #1a2d44;
-            --border-hover: rgba(0,212,255,0.35);
-            --accent: #00d4ff;
-            --accent2: #7b61ff;
-            --accent3: #00ff88;
-            --text: #dce8f5;
-            --muted: #5a7a9a;
-            --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', 'Courier New', monospace;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--font-display);
-            font-size: 16px;
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        /* ── SCROLL PROGRESS ─────────────────────── */
-        #scroll-progress {
-            position: fixed;
-            top: 0; left: 0;
-            height: 2px;
-            width: 0%;
-            background: linear-gradient(90deg, var(--accent), var(--accent2));
-            z-index: 10000;
-            transition: width 0.1s linear;
-        }
-
-        /* ── GRID BACKGROUND ─────────────────────── */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
-            background-size: 48px 48px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* ── NOISE OVERLAY ───────────────────────── */
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.4;
-        }
-
-        /* ── NAV ─────────────────────────────────── */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 999;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.9rem 5%;
-            background: rgba(6,11,18,0.88);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            font-family: var(--font-mono);
-            font-size: 1.05rem;
-            color: var(--accent);
-            letter-spacing: 0.06em;
-            position: relative;
-            cursor: default;
-        }
-
-        .logo span { color: var(--muted); }
-
-        .logo::after {
-            content: '_';
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-        .nav-links {
-            display: flex;
-            gap: 1.8rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 0.8rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            transition: color 0.2s;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px; left: 0;
-            width: 0; height: 1px;
-            background: var(--accent);
-            transition: width 0.25s ease;
-        }
-
-        .nav-links a:hover { color: var(--accent); }
-        .nav-links a:hover::after { width: 100%; }
-
-        .lang-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--muted);
-            padding: 5px 13px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.12em;
-            transition: all 0.2s;
-        }
-
-        .lang-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            box-shadow: 0 0 8px rgba(0,212,255,0.15);
-        }
-
-        /* ── HERO ────────────────────────────────── */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 6rem 5% 4rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-glow {
-            position: absolute;
-            top: 20%;
-            left: -10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
-            pointer-events: none;
-            animation: glow-drift 8s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow-drift {
-            from { transform: translate(0,0); }
-            to   { transform: translate(60px, 30px); }
-        }
-
-        .otw-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(0,255,136,0.08);
-            border: 1px solid rgba(0,255,136,0.25);
-            color: var(--accent3);
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.06em;
-            margin-bottom: 1.5rem;
-            width: fit-content;
-            animation: fade-down 0.6s ease both;
-        }
-
-        .otw-dot {
-            width: 7px; height: 7px;
-            background: var(--accent3);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-            box-shadow: 0 0 6px var(--accent3);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.8); }
-        }
-
-        .hero-tag {
-            font-family: var(--font-mono);
-            font-size: 0.78rem;
-            color: var(--accent);
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            animation: fade-down 0.6s 0.1s ease both;
-        }
-
-        .hero-tag::before {
-            content: '';
-            display: inline-block;
-            width: 28px; height: 1px;
-            background: var(--accent);
-        }
-
-        .hero h1 {
-            font-size: clamp(2.8rem, 6.5vw, 5.5rem);
-            font-weight: 800;
-            line-height: 1.08;
-            letter-spacing: -0.025em;
-            margin-bottom: 1.5rem;
-            animation: fade-up 0.7s 0.2s ease both;
-        }
-
-        .name-accent {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-sub {
-            font-size: 1.05rem;
-            color: var(--muted);
-            max-width: 560px;
-            margin-bottom: 2.5rem;
-            min-height: 2.5em;
-            animation: fade-up 0.7s 0.35s ease both;
-        }
-
-        .hero-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            margin-bottom: 2.8rem;
-            animation: fade-up 0.7s 0.5s ease both;
-        }
-
-        .badge {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            padding: 4px 11px;
-            border-radius: 3px;
-            border: 1px solid;
-            transition: all 0.25s;
-        }
-
-        .badge:hover { transform: translateY(-2px); filter: brightness(1.2); }
-        .badge-cyan  { border-color: var(--accent); color: var(--accent); }
-        .badge-purple{ border-color: var(--accent2); color: var(--accent2); }
-        .badge-green { border-color: var(--accent3); color: var(--accent3); }
-
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            animation: fade-up 0.7s 0.6s ease both;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: var(--bg);
-            padding: 11px 26px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.88rem;
-            letter-spacing: 0.02em;
-            transition: all 0.25s;
-            display: inline-block;
-            box-shadow: 0 0 0 rgba(0,212,255,0);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0,212,255,0.3);
-        }
-
-        .btn-outline {
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 11px 26px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.88rem;
-            transition: all 0.25s;
-            display: inline-block;
-        }
-
-        .btn-outline:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0,212,255,0.1);
-        }
-
-        /* ── STATS ROW ───────────────────────────── */
-        .stats-row {
-            display: flex;
-            gap: 2.5rem;
-            flex-wrap: wrap;
-            margin-top: 3.5rem;
-            padding-top: 2.5rem;
-            border-top: 1px solid var(--border);
-            animation: fade-up 0.7s 0.75s ease both;
-        }
-
-        .stat {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-value {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--accent);
-            font-family: var(--font-mono);
-            letter-spacing: -0.02em;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--muted);
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        /* ── SECTIONS ────────────────────────────── */
-        section {
-            padding: 6rem 5%;
-            max-width: 1100px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .section-label {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            color: var(--accent);
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            margin-bottom: 0.7rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .section-label::before {
-            content: '';
-            display: inline-block;
-            width: 18px; height: 1px;
-            background: var(--accent);
-        }
-
-        h2 {
-            font-size: 1.9rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-bottom: 2.2rem;
-        }
-
-        h3.subsection {
-            font-size: 0.72rem;
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--muted);
-            margin: 2rem 0 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        h3.subsection::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        /* ── CARDS ───────────────────────────────── */
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.6rem;
-            margin-bottom: 1rem;
-            transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, var(--accent), var(--accent2));
-            opacity: 0;
-            transition: opacity 0.25s;
-        }
-
-        .card:hover {
-            border-color: var(--border-hover);
-            transform: translateX(5px);
-            box-shadow: -4px 0 20px rgba(0,212,255,0.06), 0 8px 32px rgba(0,0,0,0.3);
-        }
-
-        .card:hover::before { opacity: 1; }
-
-        .card-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .card-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 0.25rem;
-        }
-
-        .card-company {
-            font-family: var(--font-mono);
-            font-size: 0.78rem;
-            color: var(--accent);
-        }
-
-        .card-date {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            color: var(--muted);
-            white-space: nowrap;
-            padding-top: 0.25rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 3px 10px;
-            border-radius: 3px;
-        }
-
-        .card ul {
-            list-style: none;
-            margin-top: 0.9rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
-
-        .card li {
-            font-size: 0.88rem;
-            color: var(--muted);
-            padding-left: 1.1rem;
-            position: relative;
-        }
-
-        .card li::before {
-            content: '›';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        /* ── CERT CARD ───────────────────────────── */
-        .cert-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.6rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 1.4rem;
-            transition: border-color 0.25s, box-shadow 0.25s;
-        }
-
-        .cert-card:hover {
-            border-color: var(--border-hover);
-            box-shadow: 0 8px 32px rgba(0,212,255,0.07);
-        }
-
-        .cert-icon-box {
-            flex-shrink: 0;
-            width: 52px; height: 52px;
-            background: linear-gradient(135deg, rgba(0,212,255,0.12), rgba(123,97,255,0.12));
-            border: 1px solid rgba(0,212,255,0.2);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-        }
-
-        .cert-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-        }
-
-        .cert-issuer {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--accent);
-            margin-bottom: 0.6rem;
-        }
-
-        .cert-desc {
-            font-size: 0.86rem;
-            color: var(--muted);
-        }
-
-        /* ── SKILLS ──────────────────────────────── */
-        .skills-category {
-            margin-bottom: 1.4rem;
-        }
-
-        .skill-cat-label {
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            margin-bottom: 0.6rem;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .skill-cat-label::after {
-            content: '';
-            flex: 0 0 20px;
-            height: 1px;
-            background: var(--border);
-        }
-
-        .skills-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .skill-tag {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            padding: 5px 12px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            color: var(--text);
-            transition: all 0.2s;
-            cursor: default;
-            animation: tag-appear 0.4s ease both;
-        }
-
-        .skill-tag:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: rgba(0,212,255,0.06);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,212,255,0.1);
-        }
-
-        /* ── LANGUAGES ───────────────────────────── */
-        .lang-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-
-        .lang-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.8rem 1.2rem;
-            gap: 0.2rem;
-            transition: border-color 0.2s, transform 0.2s;
-            min-width: 100px;
-        }
-
-        .lang-item:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-        }
-
-        .lang-name {
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-
-        .lang-level {
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        /* ── PROJECTS ────────────────────────────── */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 1rem;
-        }
-
-        .project-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.4rem;
-            transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card::after {
-            content: '';
-            position: absolute;
-            top: 0; right: 0;
-            width: 60px; height: 60px;
-            background: radial-gradient(circle at 100% 0%, rgba(0,212,255,0.05), transparent 70%);
-            pointer-events: none;
-        }
-
-        .project-card:hover {
-            border-color: rgba(0,212,255,0.4);
-            transform: translateY(-5px);
-            box-shadow: 0 12px 36px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,212,255,0.08);
-        }
-
-        .project-tag {
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            color: var(--accent2);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-name {
-            font-size: 0.98rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-desc {
-            font-size: 0.83rem;
-            color: var(--muted);
-            flex: 1;
-            margin-bottom: 1.2rem;
-            line-height: 1.5;
-        }
-
-        .project-link {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--accent);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            transition: gap 0.2s;
-        }
-
-        .project-link:hover { gap: 0.7rem; }
-
-        /* ── FOOTER ──────────────────────────────── */
-        footer {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            padding: 4rem 5% 3rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .footer-name {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 0.4rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: var(--muted);
-            text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover { color: var(--accent); }
-
-        .footer-copy {
-            font-size: 0.75rem;
-            color: var(--muted);
-            margin-top: 1rem;
-        }
-
-        /* ── ANIMATIONS ──────────────────────────── */
-        @keyframes fade-up {
-            from { opacity: 0; transform: translateY(24px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fade-down {
-            from { opacity: 0; transform: translateY(-16px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes tag-appear {
-            from { opacity: 0; transform: scale(0.85); }
-            to   { opacity: 1; transform: scale(1); }
-        }
-
-        /* ── HACKER INTRO ────────────────────────── */
-        #hacker-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 99999;
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 1.2s ease;
-        }
-
-        #hacker-overlay.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        #matrix-canvas {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        #hacker-terminal {
-            position: relative;
-            z-index: 2;
-            font-family: var(--font-mono);
-            font-size: clamp(0.75rem, 1.5vw, 0.95rem);
-            color: #00ff88;
-            text-shadow: 0 0 8px #00ff88;
-            max-width: 680px;
-            width: 90%;
-            background: rgba(0,0,0,0.75);
-            border: 1px solid rgba(0,255,136,0.25);
-            border-radius: 8px;
-            padding: 2rem 2.2rem;
-            line-height: 1.8;
-        }
-
-        #hacker-terminal .t-line { display: block; white-space: pre-wrap; }
-        #hacker-terminal .t-prompt { color: #00d4ff; }
-        #hacker-terminal .t-warn   { color: #ffaa00; }
-        #hacker-terminal .t-ok     { color: #00ff88; }
-        #hacker-terminal .t-dim    { color: #3a5a4a; }
-        #hacker-terminal .t-name   { color: #fff; font-weight: 700; font-size: 1.4em; letter-spacing: 0.05em; }
-        #hacker-terminal .t-cursor {
-            display: inline-block;
-            width: 9px; height: 1.1em;
-            background: #00ff88;
-            vertical-align: text-bottom;
-            animation: blink 0.7s step-end infinite;
-        }
-
-        #skip-btn {
-            position: relative;
-            z-index: 3;
-            margin-top: 1.4rem;
-            background: transparent;
-            border: 1px solid rgba(0,255,136,0.3);
-            color: rgba(0,255,136,0.5);
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.12em;
-            padding: 5px 16px;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        #skip-btn:hover {
-            border-color: rgba(0,255,136,0.8);
-            color: #00ff88;
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.65s ease, transform 0.65s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* stagger children inside visible sections */
-        .fade-in.visible .card:nth-child(1) { transition-delay: 0.05s; }
-        .fade-in.visible .card:nth-child(2) { transition-delay: 0.12s; }
-        .fade-in.visible .card:nth-child(3) { transition-delay: 0.19s; }
-        .fade-in.visible .card:nth-child(4) { transition-delay: 0.26s; }
-
-        .card { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.25s, box-shadow 0.25s; }
-        .fade-in.visible .card { opacity: 1; transform: translateY(0); }
-
-        .project-card { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.25s, box-shadow 0.25s; }
-        .fade-in.visible .project-card:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
-        .fade-in.visible .project-card:nth-child(2) { transition-delay: 0.1s;  opacity: 1; transform: translateY(0); }
-        .fade-in.visible .project-card:nth-child(3) { transition-delay: 0.15s; opacity: 1; transform: translateY(0); }
-        .fade-in.visible .project-card:nth-child(4) { transition-delay: 0.2s;  opacity: 1; transform: translateY(0); }
-        .fade-in.visible .project-card:nth-child(5) { transition-delay: 0.25s; opacity: 1; transform: translateY(0); }
-        .fade-in.visible .project-card:nth-child(6) { transition-delay: 0.3s;  opacity: 1; transform: translateY(0); }
-        .fade-in.visible .project-card:nth-child(7) { transition-delay: 0.35s; opacity: 1; transform: translateY(0); }
-        .fade-in.visible .project-card:nth-child(8) { transition-delay: 0.4s;  opacity: 1; transform: translateY(0); }
-
-        /* ── RESPONSIVE ──────────────────────────── */
-        @media (max-width: 700px) {
-            .nav-links { display: none; }
-            .hero h1 { font-size: 2.4rem; }
-            .cert-card { flex-direction: column; }
-            .stats-row { gap: 1.5rem; }
-            section { padding: 4rem 5%; }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Abdul-Rafeh Alvi er IT-konsulent i NOKUT og masterstudent i cybersikkerhet, med erfaring innen Microsoft-sky, sikkerhetstesting, risikovurdering og IT-drift.">
+  <meta name="theme-color" content="#f3f0e8">
+  <meta property="og:title" content="Abdul-Rafeh Alvi | IT og cybersikkerhet">
+  <meta property="og:description" content="Praktisk IT-drift, skysikkerhet, sikkerhetstesting og risikostyring.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://abdulr15352.github.io/">
+  <title>Abdul-Rafeh Alvi | IT og cybersikkerhet</title>
+  <style>
+    :root {
+      --paper: #f3f0e8;
+      --paper-deep: #e7e1d4;
+      --ink: #18221d;
+      --muted: #58635d;
+      --green: #153f35;
+      --green-soft: #dce5dc;
+      --orange: #c9582b;
+      --line: rgba(24, 34, 29, .18);
+      --white: #fbfaf6;
+      --radius: 18px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+    .skip-link { position: absolute; left: -9999px; top: 1rem; z-index: 20; background: var(--ink); color: white; padding: .75rem 1rem; }
+    .skip-link:focus { left: 1rem; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(243, 240, 232, .92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+    .mark { display: inline-flex; align-items: center; gap: .8rem; text-decoration: none; font-weight: 760; letter-spacing: -.02em; }
+    .mark-box { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--green); color: var(--paper); font-size: .76rem; letter-spacing: .08em; }
+    .nav-links { display: flex; align-items: center; gap: 1.4rem; list-style: none; margin: 0; padding: 0; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: .92rem; font-weight: 650; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-contact { border-bottom: 2px solid var(--orange); color: var(--ink) !important; }
+
+    main { overflow: hidden; }
+    .hero { padding: clamp(5rem, 10vw, 9rem) 0 4rem; border-bottom: 1px solid var(--line); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, .65fr); align-items: end; gap: clamp(3rem, 8vw, 8rem); }
+    .eyebrow { display: flex; align-items: center; gap: .7rem; margin: 0 0 1.3rem; color: var(--green); font-size: .78rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 26px; height: 3px; background: var(--orange); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 900px; margin-bottom: 1.7rem; font-family: Georgia, "Times New Roman", serif; font-size: clamp(3.25rem, 8vw, 7.6rem); font-weight: 500; line-height: .91; letter-spacing: -.065em; }
+    h1 em { color: var(--orange); font-weight: 500; }
+    .lead { max-width: 730px; margin-bottom: 2rem; color: #39463f; font-size: clamp(1.08rem, 1.9vw, 1.34rem); line-height: 1.55; }
+    .actions { display: flex; flex-wrap: wrap; gap: .8rem; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; min-height: 48px; padding: .75rem 1.1rem; border: 1px solid var(--ink); border-radius: 999px; text-decoration: none; font-weight: 750; transition: transform .18s ease, background .18s ease, color .18s ease; }
+    .button.primary { background: var(--ink); color: var(--paper); }
+    .button:hover { transform: translateY(-2px); }
+    .button.primary:hover { background: var(--green); }
+    .button.secondary:hover { background: var(--white); }
+
+    .profile-note { position: relative; padding: 1.4rem; background: var(--green); color: var(--paper); border-radius: var(--radius); transform: rotate(1.2deg); box-shadow: 14px 14px 0 var(--paper-deep); }
+    .profile-note::before { content: "AR"; display: grid; place-items: center; width: 76px; height: 76px; margin-bottom: 2.5rem; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; font-family: Georgia, serif; font-size: 1.45rem; }
+    .profile-note p { margin-bottom: .35rem; }
+    .profile-note strong { font-size: 1.08rem; }
+    .profile-note small { color: rgba(255,255,255,.72); }
+    .status { display: flex; align-items: center; gap: .55rem; margin-top: 1.5rem; font-size: .84rem; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #f1b34c; box-shadow: 0 0 0 5px rgba(241,179,76,.13); }
+
+    .proof { border-bottom: 1px solid var(--line); }
+    .proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .proof-item { padding: 1.65rem 1.2rem; border-right: 1px solid var(--line); }
+    .proof-item:first-child { padding-left: 0; }
+    .proof-item:last-child { border-right: 0; }
+    .proof-value { display: block; color: var(--green); font-family: Georgia, serif; font-size: 2.25rem; line-height: 1; }
+    .proof-label { display: block; margin-top: .4rem; color: var(--muted); font-size: .82rem; }
+
+    section { padding: clamp(4.5rem, 8vw, 7.5rem) 0; }
+    .section-head { display: grid; grid-template-columns: .6fr 1.4fr; gap: 3rem; margin-bottom: 3.4rem; }
+    .kicker { color: var(--orange); font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    h2 { max-width: 780px; margin-bottom: .8rem; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.35rem, 5vw, 4.6rem); font-weight: 500; line-height: 1.02; letter-spacing: -.045em; }
+    .section-intro { max-width: 730px; color: var(--muted); font-size: 1.08rem; }
+
+    .role-list { border-top: 1px solid var(--line); }
+    .role { display: grid; grid-template-columns: .55fr 1.45fr; gap: 3rem; padding: 2.2rem 0; border-bottom: 1px solid var(--line); }
+    .role-meta span { display: block; }
+    .role-date { color: var(--orange); font-size: .82rem; font-weight: 800; text-transform: uppercase; letter-spacing: .09em; }
+    .role-company { margin-top: .35rem; color: var(--muted); }
+    .role h3 { margin-bottom: .65rem; font-size: 1.35rem; letter-spacing: -.025em; }
+    .role p { max-width: 780px; margin-bottom: .9rem; color: #46534c; }
+    .plain-list { margin: 0; padding-left: 1.15rem; color: #46534c; }
+    .plain-list li + li { margin-top: .35rem; }
+
+    .dark { background: var(--green); color: var(--paper); }
+    .dark .kicker { color: #f1a37f; }
+    .dark .section-intro { color: rgba(255,255,255,.68); }
+    .skill-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.2); }
+    .skill-card { min-height: 270px; padding: 1.7rem; background: var(--green); }
+    .skill-no { color: #f1a37f; font-family: Georgia, serif; font-size: 1.8rem; }
+    .skill-card h3 { margin: 2.2rem 0 .7rem; font-size: 1.15rem; }
+    .skill-card p { margin-bottom: 0; color: rgba(255,255,255,.68); font-size: .94rem; }
+
+    .study-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(2.5rem, 7vw, 7rem); }
+    .study-highlight { align-self: start; padding: 2rem; background: var(--orange); color: var(--white); border-radius: var(--radius); }
+    .study-highlight strong { display: block; font-family: Georgia, serif; font-size: 5rem; line-height: .9; font-weight: 500; }
+    .study-highlight p { margin: .8rem 0 0; }
+    .course-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+    .course { display: grid; grid-template-columns: 78px 1fr auto; gap: 1rem; align-items: start; padding: 1.15rem 0; border-bottom: 1px solid var(--line); }
+    .course-code { color: var(--orange); font-size: .78rem; font-weight: 850; letter-spacing: .07em; }
+    .course strong { display: block; }
+    .course small { display: block; margin-top: .2rem; color: var(--muted); }
+    .grade { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--green); border-radius: 50%; color: var(--green); font-weight: 850; }
+
+    .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .project { display: flex; flex-direction: column; min-height: 315px; padding: 1.7rem; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); }
+    .project:nth-child(3n) { grid-column: span 2; min-height: 250px; }
+    .project-label { color: var(--orange); font-size: .75rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .project h3 { margin: auto 0 .7rem; max-width: 600px; font-family: Georgia, serif; font-size: clamp(1.55rem, 3vw, 2.35rem); font-weight: 500; line-height: 1.08; }
+    .project p { max-width: 720px; margin-bottom: 0; color: var(--muted); }
+
+    .credentials { background: var(--paper-deep); }
+    .credential-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .credential { padding: 1.7rem; background: var(--paper); border-top: 4px solid var(--green); }
+    .credential small { color: var(--orange); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .credential h3 { margin: 1.5rem 0 .5rem; font-size: 1.35rem; }
+    .credential p { color: var(--muted); margin-bottom: 0; }
+    .micro { margin-top: 1rem; font-size: .85rem; color: var(--muted); }
+
+    .contact { padding-bottom: 3rem; }
+    .contact-card { display: grid; grid-template-columns: 1.25fr .75fr; gap: 3rem; align-items: end; padding: clamp(2rem, 6vw, 4rem); background: var(--ink); color: var(--paper); border-radius: var(--radius); }
+    .contact-card h2 { margin-bottom: 1rem; }
+    .contact-card p { max-width: 640px; color: rgba(255,255,255,.67); }
+    .contact-links { display: grid; gap: .65rem; }
+    .contact-links a { display: flex; justify-content: space-between; gap: 1rem; padding: .85rem 0; border-bottom: 1px solid rgba(255,255,255,.25); text-decoration: none; font-weight: 700; }
+    .contact-links a:hover { color: #f1a37f; }
+    footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.6rem 0; color: var(--muted); font-size: .82rem; }
+
+    @media (max-width: 850px) {
+      .nav-links li:not(:last-child) { display: none; }
+      .hero-grid, .section-head, .role, .study-layout, .contact-card { grid-template-columns: 1fr; }
+      .hero-grid { align-items: start; }
+      .profile-note { max-width: 430px; transform: none; }
+      .proof-grid { grid-template-columns: repeat(2, 1fr); }
+      .proof-item:nth-child(2) { border-right: 0; }
+      .proof-item:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .proof-item:nth-child(3) { padding-left: 0; }
+      .skill-grid { grid-template-columns: 1fr 1fr; }
+      .role { gap: .8rem; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { width: min(calc(100% - 28px), var(--max)); }
+      .mark > span:last-child { display: none; }
+      h1 { font-size: clamp(3rem, 18vw, 5rem); }
+      .proof-grid, .skill-grid, .project-grid, .credential-grid { grid-template-columns: 1fr; }
+      .proof-item { border-right: 0; border-bottom: 1px solid var(--line); padding-left: 0; }
+      .project:nth-child(3n) { grid-column: auto; }
+      .course { grid-template-columns: 64px 1fr auto; }
+      footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Abdul-Rafeh Alvi",
+    "url": "https://abdulr15352.github.io/",
+    "jobTitle": "FÃ¸rstekonsulent IT",
+    "worksFor": { "@type": "Organization", "name": "NOKUT" },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "HÃ¸yskolen Kristiania" },
+    "sameAs": [
+      "https://www.linkedin.com/in/abdul-rafeh-alvi-8b9a00290/",
+      "https://github.com/abdulr15352"
+    ]
+  }
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#innhold">Hopp til innhold</a>
+  <header>
+    <nav class="wrap" aria-label="Hovedmeny">
+      <a class="mark" href="#topp" aria-label="Til toppen">
+        <span class="mark-box">ARA</span>
+        <span>Abdul-Rafeh Alvi</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#erfaring">Erfaring</a></li>
+        <li><a href="#kompetanse">Kompetanse</a></li>
+        <li><a href="#prosjekter">Prosjekter</a></li>
+        <li><a class="nav-contact" href="#kontakt">Ta kontakt</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<!-- HACKER INTRO OVERLAY -->
-<div id="hacker-overlay">
-    <canvas id="matrix-canvas"></canvas>
-    <div id="hacker-terminal">
-        <span id="terminal-output"></span><span class="t-cursor" id="t-cursor"></span>
-    </div>
-    <button id="skip-btn" onclick="skipIntro()">[ SKIP ]</button>
-</div>
-
-<div id="scroll-progress"></div>
-
-<nav>
-    <div class="logo">AR<span>.</span>Alvi</div>
-    <ul class="nav-links">
-        <li><a href="#about"          data-key="nav_about">Om</a></li>
-        <li><a href="#experience"     data-key="nav_exp">Erfaring</a></li>
-        <li><a href="#education"      data-key="nav_edu">Utdanning</a></li>
-        <li><a href="#certifications" data-key="nav_cert">Sertifikater</a></li>
-        <li><a href="#skills"         data-key="nav_skills">Ferdigheter</a></li>
-        <li><a href="#projects"       data-key="nav_proj">Prosjekter</a></li>
-        <li><a href="#contact"        data-key="nav_contact">Kontakt</a></li>
-    </ul>
-    <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
-</nav>
-
-<!-- HERO -->
-<div class="hero">
-    <div class="hero-glow"></div>
-
-    <div class="otw-badge">
-        <div class="otw-dot"></div>
-        <span data-key="hero_otw">Åpen for jobb</span>
-    </div>
-
-    <div class="hero-tag" data-key="hero_tag">Cybersikkerhet · Oslo, Norge</div>
-
-    <h1>
-        <span class="name-accent">Abdul-Rafeh</span><br>Alvi
-    </h1>
-
-    <p class="hero-sub" id="hero-sub-text" data-key="hero_sub"></p>
-
-    <div class="hero-badges">
-        <span class="badge badge-cyan">CompTIA Security+</span>
-        <span class="badge badge-purple">Penetration Testing</span>
-        <span class="badge badge-green">M.S.C Cybersecurity</span>
-        <span class="badge badge-cyan">Top 3% TryHackMe</span>
-        <span class="badge badge-purple">HackTheBox</span>
-    </div>
-
-    <div class="hero-cta">
-        <a href="#contact"  class="btn-primary"  data-key="hero_btn_contact">Kontakt meg</a>
-        <a href="#projects" class="btn-outline"   data-key="hero_btn_projects">Se prosjekter</a>
-    </div>
-
-    <div class="stats-row">
-        <div class="stat">
-            <span class="stat-value" data-count="3">3%</span>
-            <span class="stat-label" data-key="stat1_label">TryHackMe topp</span>
-        </div>
-        <div class="stat">
-            <span class="stat-value">Security+</span>
-            <span class="stat-label" data-key="stat2_label">CompTIA Sertifisering</span>
-        </div>
-        <div class="stat">
-            <span class="stat-value">2+</span>
-            <span class="stat-label" data-key="stat3_label">År relevant erfaring</span>
-        </div>
-        <div class="stat">
-            <span class="stat-value" data-count="8">8</span>
-            <span class="stat-label" data-key="stat4_label">GitHub-prosjekter</span>
-        </div>
-    </div>
-</div>
-
-<!-- ABOUT -->
-<section id="about" class="fade-in">
-    <div class="section-label" data-key="sec_label_about">Om</div>
-    <h2 data-key="sec_h2_about">Om meg</h2>
-    <div class="card">
-        <p data-key="about_text">
-            Masterstudent i Cybersikkerhet ved Høyskolen Kristiania med bachelor i samme fagfelt og CompTIA Security+. Praktisk erfaring innen penetrasjonstesting, skysikkerhet og hendelseshåndtering. Har veiledet studenter i etisk hacking og offensive metoder, og ønsker å bruke teknisk kompetanse i en relevant rolle innen cybersikkerhet eller IT-sikkerhet. Aktiv deltaker på TryHackMe (topp 3 %) og HackTheBox.
-        </p>
-    </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience" class="fade-in">
-    <div class="section-label" data-key="sec_label_exp">Erfaring</div>
-    <h2 data-key="sec_h2_exp">Arbeidserfaring</h2>
-
-    <h3 class="subsection" data-key="subsec_relevant">Relevant erfaring</h3>
-
-    <div class="card">
-        <div class="card-row">
-            <div>
-                <div class="card-title" data-key="exp2_title">Penetration Tester</div>
-                <div class="card-company">Bidder AS</div>
-            </div>
-            <div class="card-date" data-key="exp2_date">Jan 2025 – Jun 2025</div>
-        </div>
-        <ul>
-            <li data-key="exp2_b1">Penetrasjonstesting av Android-applikasjon med fokus på OWASP Mobile Top 10 — statisk analyse (jadx-gui), automatisert skanning (MobSF), dynamisk analyse (Frida og Objection)</li>
-            <li data-key="exp2_b2">Konfigurerte Android-emulator i Android Studio for reproduserbar testing i kontrollert miljø</li>
-            <li data-key="exp2_b3">Identifiserte og dokumenterte sårbarheter og leverte konkrete forbedringsforslag til utviklingsteamet</li>
-        </ul>
-    </div>
-
-    <div class="card">
-        <div class="card-row">
-            <div>
-                <div class="card-title" data-key="exp3_title">Studentveileder – Etisk Hacking &amp; Skysikkerhet</div>
-                <div class="card-company">Høyskolen Kristiania</div>
-            </div>
-            <div class="card-date" data-key="exp3_date">Aug 2024 – Des 2024</div>
-        </div>
-        <ul>
-            <li data-key="exp3_b1">Veiledet studenter i penetrasjonstesting og offensiv metodikk med Kali Linux, Nmap, Metasploit og utnyttingsteknikker</li>
-            <li data-key="exp3_b2">Støttet studenter gjennom labøvelser i skysikkerhet (Azure, AWS) og nettverkssikkerhet</li>
-            <li data-key="exp3_b3">Forklarte tekniske konsepter og verktøy på en pedagogisk og tydelig måte</li>
-        </ul>
-    </div>
-
-    <div class="card">
-        <div class="card-row">
-            <div>
-                <div class="card-title" data-key="exp1_title">Kundeansvarlig – Teknisk Support (40 %)</div>
-                <div class="card-company">Telenor Norge AS · Kundefront, Consumer</div>
-            </div>
-            <div class="card-date" data-key="exp1_date">Apr 2025 – Mar 2026</div>
-        </div>
-        <ul>
-            <li data-key="exp1_b1">Inngående telefonsupport for privatkunder på mobil, TV og bredbånd — oppsett, faktura, feilsøking og salg</li>
-            <li data-key="exp1_b2">Systematisk feilsøking av internettlinjer og nettverksutstyr; håndterte komplekse og ukjente problemstillinger</li>
-            <li data-key="exp1_b3">Målt på salg, effektivitet og kvalitet med tilfredsstillende resultater</li>
-        </ul>
-    </div>
-
-    <h3 class="subsection" data-key="subsec_other">Annen erfaring</h3>
-
-    <div class="card">
-        <div class="card-row">
-            <div>
-                <div class="card-title" data-key="exp_other_title">Merkevarerepresentant / Butikkmedarbeider / Koronavert</div>
-                <div class="card-company">Bloom Oslo AS · MENY Netthandel · Oslo kommune</div>
-            </div>
-            <div class="card-date" data-key="exp_other_date">2021 – 2025</div>
-        </div>
-        <ul>
-            <li data-key="exp_other_b1">Promoterte merkevarer i dagligvarebutikker og andre markedsføringsaktiviteter (Bloom Oslo AS, 2023–2025)</li>
-            <li data-key="exp_other_b2">Plukket og klargjorde kundebestillinger for levering og henting (MENY Netthandel, 2022–2024)</li>
-            <li data-key="exp_other_b3">Veiledet besøkende og sørget for at smitteverntiltak ble fulgt (Oslo kommune, 2021)</li>
-        </ul>
-    </div>
-</section>
-
-<!-- EDUCATION -->
-<section id="education" class="fade-in">
-    <div class="section-label" data-key="sec_label_edu">Utdanning</div>
-    <h2 data-key="sec_h2_edu">Utdanning</h2>
-
-    <div class="card">
-        <div class="card-row">
-            <div>
-                <div class="card-title" data-key="edu1_title">Master i Cybersikkerhet</div>
-                <div class="card-company">Høyskolen Kristiania</div>
-            </div>
-            <div class="card-date">Aug 2025 – Jun 2027</div>
-        </div>
-        <p style="font-size:0.88rem;color:var(--muted);margin-top:0.9rem;" data-key="edu1_desc">Pågående mastergrad med fordypning innen trusselanalyse, sikkerhetsstyring og beskyttelse av digitale systemer. Bygger videre på teknisk bakgrunn og gir dypere forståelse av både strategiske og operative aspekter ved cybersikkerhet.</p>
-    </div>
-
-    <div class="card">
-        <div class="card-row">
-            <div>
-                <div class="card-title" data-key="edu2_title">Bachelor i Cybersikkerhet</div>
-                <div class="card-company">Høyskolen Kristiania</div>
-            </div>
-            <div class="card-date">Aug 2022 – Jun 2025</div>
-        </div>
-        <p style="font-size:0.88rem;color:var(--muted);margin-top:0.9rem;" data-key="edu2_desc">Bachelorgrad med kunnskap innen nettverkssikkerhet, etisk hacking, risikovurdering og skytjenester. Ga både teoretisk forståelse og praktisk erfaring med å identifisere, analysere og håndtere sikkerhetsutfordringer i digitale systemer.</p>
-    </div>
-</section>
-
-<!-- CERTIFICATIONS -->
-<section id="certifications" class="fade-in">
-    <div class="section-label" data-key="sec_label_cert">Sertifikater</div>
-    <h2 data-key="sec_h2_cert">Sertifiseringer</h2>
-
-    <div class="cert-card">
-        <div class="cert-icon-box">🛡️</div>
+  <main id="innhold">
+    <section class="hero" id="topp">
+      <div class="wrap hero-grid">
         <div>
-            <div class="cert-title">CompTIA Security+ ce Certification</div>
-            <div class="cert-issuer">CompTIA · <span data-key="cert_issued">Utstedt</span> Aug 2025 · <span data-key="cert_expires">Utløper</span> Aug 2028</div>
-            <p class="cert-desc" data-key="cert_desc">
-                Internasjonalt anerkjent sertifisering innen cybersikkerhet. Dekker nettverkssikkerhet, kryptografi, trusselanalyse, hendelseshåndtering og risikostyring — et solid fundament for videre spesialisering.
-            </p>
+          <p class="eyebrow">IT-drift Â· Cybersikkerhet Â· Oslo</p>
+          <h1>Jeg sikrer det som skal <em>fungere.</em></h1>
+          <p class="lead">Fra identitet og skydrift til sikkerhetstesting og risikovurdering. Jeg kombinerer teknisk nysgjerrighet med struktur, god dokumentasjon og en praktisk forstÃ¥else av hvordan IT faktisk brukes i en organisasjon.</p>
+          <div class="actions">
+            <a class="button primary" href="#erfaring">Se hva jeg har gjort <span aria-hidden="true">â†“</span></a>
+            <a class="button secondary" href="https://www.linkedin.com/in/abdul-rafeh-alvi-8b9a00290/" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">â†—</span></a>
+          </div>
         </div>
-    </div>
-</section>
+        <aside class="profile-note" aria-label="Kort profil">
+          <p><strong>Abdul-Rafeh Alvi</strong></p>
+          <p><small>FÃ¸rstekonsulent IT i NOKUT<br>Masterstudent i cybersikkerhet</small></p>
+          <div class="status"><span class="status-dot" aria-hidden="true"></span> Ã…pen for relevante sikkerhetsroller</div>
+        </aside>
+      </div>
+    </section>
 
-<!-- SKILLS -->
-<section id="skills" class="fade-in">
-    <div class="section-label" data-key="sec_label_skills">Ferdigheter</div>
-    <h2 data-key="sec_h2_skills">Tekniske ferdigheter</h2>
-
-    <div class="skills-category">
-        <div class="skill-cat-label" data-key="skill_cat1">Penetration Testing</div>
-        <div class="skills-row">
-            <span class="skill-tag">Kali Linux</span>
-            <span class="skill-tag">Metasploit</span>
-            <span class="skill-tag">Burp Suite</span>
-            <span class="skill-tag">Nmap</span>
-            <span class="skill-tag">Wireshark</span>
-            <span class="skill-tag">jadx-gui</span>
-            <span class="skill-tag">MobSF</span>
-            <span class="skill-tag">Frida</span>
-            <span class="skill-tag">Objection</span>
-        </div>
+    <div class="proof" aria-label="NÃ¸kkeltall">
+      <div class="wrap proof-grid">
+        <div class="proof-item"><span class="proof-value">240</span><span class="proof-label">oppnÃ¥dde studiepoeng</span></div>
+        <div class="proof-item"><span class="proof-value">7/8</span><span class="proof-label">A-er fÃ¸rste masterÃ¥r</span></div>
+        <div class="proof-item"><span class="proof-value">Security+</span><span class="proof-label">gyldig til august 2028</span></div>
+        <div class="proof-item"><span class="proof-value">2026</span><span class="proof-label">IT-rolle i NOKUT</span></div>
+      </div>
     </div>
 
-    <div class="skills-category">
-        <div class="skill-cat-label" data-key="skill_cat2">SIEM / Trusselintelligens</div>
-        <div class="skills-row">
-            <span class="skill-tag">Splunk</span>
-            <span class="skill-tag">Microsoft Sentinel</span>
-            <span class="skill-tag">OpenCTI</span>
-        </div>
-    </div>
-
-    <div class="skills-category">
-        <div class="skill-cat-label" data-key="skill_cat3">Sky &amp; DevSecOps</div>
-        <div class="skills-row">
-            <span class="skill-tag">Microsoft Azure</span>
-            <span class="skill-tag">AWS</span>
-            <span class="skill-tag">Entra ID</span>
-            <span class="skill-tag">GitHub Actions</span>
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">Bash</span>
-            <span class="skill-tag">JavaScript</span>
-            <span class="skill-tag">HTML &amp; CSS</span>
-            <span class="skill-tag">MySQL</span>
-        </div>
-    </div>
-
-    <div class="skills-category">
-        <div class="skill-cat-label" data-key="skill_cat4">Rammeverk &amp; Standarder</div>
-        <div class="skills-row">
-            <span class="skill-tag">OWASP</span>
-            <span class="skill-tag">NIST CSF</span>
-            <span class="skill-tag">MITRE ATT&amp;CK</span>
-            <span class="skill-tag">ISO 27001</span>
-            <span class="skill-tag">GDPR</span>
-        </div>
-    </div>
-
-    <div class="skills-category">
-        <div class="skill-cat-label" data-key="skill_cat5">Plattformer &amp; Virtualisering</div>
-        <div class="skills-row">
-            <span class="skill-tag">TryHackMe</span>
-            <span class="skill-tag">Hack The Box</span>
-            <span class="skill-tag">VMware</span>
-            <span class="skill-tag">VirtualBox</span>
-            <span class="skill-tag">Linux</span>
-        </div>
-    </div>
-
-    <h3 class="subsection" data-key="sec_label_lang">Språk</h3>
-    <div class="lang-grid">
-        <div class="lang-item">
-            <span class="lang-name" data-key="lang1_name">Norsk</span>
-            <span class="lang-level" data-key="lang1_level">Morsmål</span>
-        </div>
-        <div class="lang-item">
-            <span class="lang-name" data-key="lang2_name">Engelsk</span>
-            <span class="lang-level" data-key="lang2_level">Flytende</span>
-        </div>
-        <div class="lang-item">
-            <span class="lang-name" data-key="lang3_name">Urdu</span>
-            <span class="lang-level" data-key="lang3_level">Flytende</span>
-        </div>
-        <div class="lang-item">
-            <span class="lang-name" data-key="lang4_name">Punjabi</span>
-            <span class="lang-level" data-key="lang4_level">Flytende</span>
-        </div>
-        <div class="lang-item">
-            <span class="lang-name" data-key="lang5_name">Fransk</span>
-            <span class="lang-level" data-key="lang5_level">Grunnleggende</span>
-        </div>
-    </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects" class="fade-in">
-    <div class="section-label" data-key="sec_label_proj">Prosjekter</div>
-    <h2 data-key="sec_h2_proj">GitHub-prosjekter</h2>
-    <div class="projects-grid">
-
-        <div class="project-card">
-            <div class="project-tag">Azure · Cloud</div>
-            <div class="project-name">Deploy-Azure-WebApp</div>
-            <p class="project-desc" data-key="proj1_desc">Deploy enkle webapplikasjoner til Azure cloud-plattformen.</p>
-            <a href="https://github.com/abdulr15352/Deploy-Azure-WebApp" target="_blank" class="project-link" data-key="proj_link">View Repo →</a>
+    <section id="erfaring">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">01 / Erfaring</div>
+          <div>
+            <h2>Teknikk, mennesker og ansvar i samme rolle.</h2>
+            <p class="section-intro">Jeg liker oppgaver som krever at noen bÃ¥de forstÃ¥r detaljene og holder oversikt: lÃ¸se et driftsproblem, stille de riktige sikkerhetsspÃ¸rsmÃ¥lene og forklare valgene tydelig videre.</p>
+          </div>
         </div>
 
-        <div class="project-card">
-            <div class="project-tag">Azure · Security</div>
-            <div class="project-name">Deploy-application-firewall</div>
-            <p class="project-desc" data-key="proj2_desc">Deploy en webapplikasjon bak en brannmur på Azure.</p>
-            <a href="https://github.com/abdulr15352/Deploy-application-firewall" target="_blank" class="project-link" data-key="proj_link2">View Repo →</a>
+        <div class="role-list">
+          <article class="role">
+            <div class="role-meta"><span class="role-date">Mai 2026 â€“ nÃ¥</span><span class="role-company">NOKUT Â· Oslo / hybrid</span></div>
+            <div>
+              <h3>FÃ¸rstekonsulent IT</h3>
+              <p>Teknisk drift, brukerstÃ¸tte og administrasjon pÃ¥ tvers av Microsoft Azure, Entra ID, Intune, Microsoft 365 og klientinfrastruktur.</p>
+              <ul class="plain-list">
+                <li>Bidrar i ROS- og DPIA-vurderinger og rÃ¥dgir om personvern, risiko, governance og compliance.</li>
+                <li>FÃ¸lger opp leverandÃ¸rer, anskaffelser og forbedring av interne systemer og rutiner.</li>
+                <li>Deltar i overgang til ny driftsleverandÃ¸r, fra krav og lÃ¸sningsdesign til MDM, beredskap, testing, opplÃ¦ring og ordinÃ¦r drift.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="role">
+            <div class="role-meta"><span class="role-date">Aug â€“ des 2024</span><span class="role-company">HÃ¸yskolen Kristiania</span></div>
+            <div>
+              <h3>Studentveileder i etisk hacking og skysikkerhet</h3>
+              <p>Veiledet studenter gjennom labÃ¸velser og offensiv metodikk med Kali Linux, Nmap, Metasploit og Azure. Rollen lÃ¦rte meg Ã¥ bryte komplekse problemer ned i forstÃ¥elige steg â€“ uten Ã¥ gjÃ¸re jobben for studenten.</p>
+            </div>
+          </article>
+
+          <article class="role">
+            <div class="role-meta"><span class="role-date">2021 â€“ 2026</span><span class="role-company">Telenor Â· Bloom Â· MENY Â· Oslo kommune</span></div>
+            <div>
+              <h3>Teknisk support og service</h3>
+              <p>I Telenor feilsÃ¸kte jeg internettlinjer og nettverksutstyr og hÃ¥ndterte komplekse saker under press. Tidligere servicejobber har gitt meg ro i kundedialogen, god gjennomfÃ¸ringsevne og respekt for brukerens perspektiv.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark" id="kompetanse">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">02 / Kompetanse</div>
+          <div>
+            <h2>Fra offensiv testing til trygg drift.</h2>
+            <p class="section-intro">VerktÃ¸y er nyttige, men det viktigste er hva de brukes til. Dette er omrÃ¥dene der utdanning og praksis mÃ¸tes.</p>
+          </div>
         </div>
 
-        <div class="project-card">
-            <div class="project-tag">Python · Security</div>
-            <div class="project-name">Bank_app</div>
-            <p class="project-desc" data-key="proj3_desc">Bankapplikasjon med TOTP for to-faktor autentisering og sikkerhet.</p>
-            <a href="https://github.com/abdulr15352/Bank_app" target="_blank" class="project-link" data-key="proj_link3">View Repo →</a>
+        <div class="skill-grid">
+          <article class="skill-card"><span class="skill-no">01</span><h3>Microsoft-sky og identitet</h3><p>Azure, Entra ID, Intune, Microsoft 365, klientforvaltning, MDM og grunnleggende skyarkitektur.</p></article>
+          <article class="skill-card"><span class="skill-no">02</span><h3>Sikkerhetstesting</h3><p>Kali Linux, Burp Suite, Nmap, Metasploit, OWASP ZAP, MobSF, Frida, Objection og metodisk rapportering.</p></article>
+          <article class="skill-card"><span class="skill-no">03</span><h3>Risiko og etterlevelse</h3><p>ROS, DPIA, GDPR, governance, compliance, sikkerhetskrav og risikobasert prioritering.</p></article>
+          <article class="skill-card"><span class="skill-no">04</span><h3>Trusselintelligens</h3><p>CTI-livssyklus, OSINT, artefakt- og logganalyse, attribusjon, triage, SIEM og MITRE ATT&amp;CK.</p></article>
+          <article class="skill-card"><span class="skill-no">05</span><h3>Sikker utvikling</h3><p>Secure SDLC, CI/CD, DevSecOps, security by design og scripting i Python, Bash og JavaScript.</p></article>
+          <article class="skill-card"><span class="skill-no">06</span><h3>Prosjekt og formidling</h3><p>LeverandÃ¸roppfÃ¸lging, anskaffelser, akseptansetesting, dokumentasjon, opplÃ¦ring og presentasjon for ledelsen.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="utdanning">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">03 / Faglig dybde</div>
+          <div>
+            <h2>Fagkodene, oversatt til faktisk kompetanse.</h2>
+            <p class="section-intro">FÃ¸rste masterÃ¥r er fullfÃ¸rt med 60 studiepoeng: syv A-er og Ã©n B. Under er et utvalg av det emnene dokumenterer at jeg har jobbet med.</p>
+          </div>
         </div>
 
-        <div class="project-card">
-            <div class="project-tag">DevOps · Azure</div>
-            <div class="project-name">Notes_app</div>
-            <p class="project-desc" data-key="proj4_desc">DevOps-pipeline for notat-app med GitHub Actions for automatisk bygging og deployment til Azure VM.</p>
-            <a href="https://github.com/abdulr15352/mc101-exam" target="_blank" class="project-link" data-key="proj_link4">View Repo →</a>
+        <div class="study-layout">
+          <aside class="study-highlight"><strong>7A</strong><p>av Ã¥tte masteremner fÃ¸rste studieÃ¥r. Karakterene er ikke hele historien, men de viser at jeg leverer jevnt og selvstendig.</p></aside>
+          <ul class="course-list">
+            <li class="course"><span class="course-code">MC100</span><span><strong>Secure Software Development</strong><small>DevSecOps, sikker utviklingslivssyklus og privacy/security by design.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">MC101</span><span><strong>End-Point and Cloud Security</strong><small>Defense in depth, delt ansvar og beskyttelse av sky-, nettverks- og endepunktmiljÃ¸er.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">MC102</span><span><strong>Cyber Threat Intelligence</strong><small>OSINT, logg- og artefaktanalyse, CTI-rammeverk, SIEM og MITRE ATT&amp;CK.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">MC103</span><span><strong>Cryptography and Blockchain</strong><small>Kryptering av data i ro og transitt, transaksjonsanalyse og blokkjedelÃ¸sninger.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">MC104</span><span><strong>AI for Cyber Security</strong><small>Klassifisering, clustering og regresjon brukt pÃ¥ blant annet skadevare- og nettverkstrafikk.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">ETH2100</span><span><strong>Etisk hacking</strong><small>Offensiv metodikk, sÃ¥rbarhetsanalyse, utnyttelse og ansvarlig dokumentasjon.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">GRC1100</span><span><strong>Governance, Risk and Compliance</strong><small>Styring, risiko, kontroller og etterlevelse i en organisatorisk kontekst.</small></span><span class="grade">âœ“</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="prosjekter">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">04 / Utvalgte prosjekter</div>
+          <div>
+            <h2>Arbeid som viser hvordan jeg tenker.</h2>
+            <p class="section-intro">Jeg har valgt ut noen fÃ¥ prosjekter som viser bredde og ansvar, i stedet for Ã¥ liste alt jeg har vÃ¦rt innom.</p>
+          </div>
         </div>
 
-        <div class="project-card">
-            <div class="project-tag">Python · Networking</div>
-            <div class="project-name">Network_Scanner</div>
-            <p class="project-desc" data-key="proj5_desc">Nettverksskanner programmert i Python for å kartlegge enheter og tjenester.</p>
-            <a href="https://github.com/abdulr15352/abdulr15352/tree/main/Python/network_scanner" target="_blank" class="project-link" data-key="proj_link5">View Repo →</a>
+        <div class="project-grid">
+          <article class="project"><span class="project-label">NOKUT Â· Infrastruktur</span><h3>Ny driftsleverandÃ¸r</h3><p>Kravspesifikasjon, miljÃ¸kartlegging, lÃ¸sningsdesign, MDM/Intune, beredskap med ASR/backup og RTO/RPO, akseptansetesting og overgang til drift.</p></article>
+          <article class="project"><span class="project-label">NOKUT Â· Digital arbeidsflate</span><h3>Fra Episerver til SharePoint</h3><p>OppfÃ¸lging av utviklere og interne brukergrupper, behovskartlegging og tilrettelegging av ny plattform for dokument- og informasjonsdeling.</p></article>
+          <article class="project"><span class="project-label">Bachelorprosjekt Â· Bidder AS</span><h3>Penetrasjonstest av Android-applikasjon</h3><p>Statisk, automatisert og dynamisk analyse med jadx-gui, MobSF, Frida og Objection, strukturert etter OWASP Mobile Top 10. Funn og konkrete tiltak ble levert til utviklingsteamet.</p></article>
+          <article class="project"><span class="project-label">NOKUT Â· Nettverk</span><h3>Dekningsanalyse for trÃ¥dlÃ¸st nett</h3><p>LeverandÃ¸rdialog, analyse av dekning og utarbeidelse av anbefaling og lÃ¸sningsforslag presentert for ledelsen.</p></article>
+          <article class="project"><span class="project-label">FagmiljÃ¸ Â· 2024</span><h3>Min fÃ¸rste CTF hos Netcompany</h3><p>En praktisk kveld med sikkerhetsoppgaver, samarbeid og nye faglige bekjentskaper â€“ og en god pÃ¥minnelse om hvorfor jeg holder meg aktiv pÃ¥ TryHackMe og Hack The Box.</p></article>
         </div>
+        <p class="micro">Kode og mindre labprosjekter ligger pÃ¥ <a href="https://github.com/abdulr15352" target="_blank" rel="noreferrer">GitHub-profilen min â†—</a>.</p>
+      </div>
+    </section>
 
-        <div class="project-card">
-            <div class="project-tag">IoT · Python</div>
-            <div class="project-name">ESP32-TEMP-ALERT</div>
-            <p class="project-desc" data-key="proj6_desc">ESP32 temperatursensor med e-postvarsler ved grenseverdier.</p>
-            <a href="https://github.com/abdulr15352/abdulr15352/tree/main/IOT/ESP32%20Based%20Webserver%20for%20Temperature%20and%20Humidity%20Measurement%20" target="_blank" class="project-link" data-key="proj_link6">View Repo →</a>
+    <section class="credentials" aria-labelledby="bakgrunn-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">05 / Bakgrunn</div>
+          <div><h2 id="bakgrunn-title">Formell tyngde, praktisk retning.</h2></div>
         </div>
-
-        <div class="project-card">
-            <div class="project-tag">Python · Pentesting</div>
-            <div class="project-name">MAC_CHANGER</div>
-            <p class="project-desc" data-key="proj7_desc">Python-script for å endre MAC-adresse på nettverksgrensesnitt.</p>
-            <a href="https://github.com/abdulr15352/abdulr15352/tree/main/Python/mac_changer" target="_blank" class="project-link" data-key="proj_link7">View Repo →</a>
+        <div class="credential-grid">
+          <article class="credential"><small>2025 â€“ pÃ¥gÃ¥ende</small><h3>Master i cybersikkerhet</h3><p>HÃ¸yskolen Kristiania Â· 60 av 120 studiepoeng fullfÃ¸rt.</p></article>
+          <article class="credential"><small>2022 â€“ 2025</small><h3>Bachelor i cybersikkerhet</h3><p>HÃ¸yskolen Kristiania Â· 180 studiepoeng.</p></article>
+          <article class="credential"><small>Aug 2025 â€“ aug 2028</small><h3>CompTIA Security+ (SY0-701)</h3><p>Grunnlag innen trusler, sikkerhetsarkitektur, sikkerhetsdrift og risikostyring.</p></article>
+          <article class="credential"><small>SprÃ¥k</small><h3>Norsk og engelsk</h3><p>Norsk morsmÃ¥l, engelsk flytende. Muntlig urdu og punjabi, grunnleggende fransk.</p></article>
         </div>
+      </div>
+    </section>
 
-        <div class="project-card">
-            <div class="project-tag">Pentesting · Report</div>
-            <div class="project-name">Pentest_Report</div>
-            <p class="project-desc" data-key="proj8_desc">Dokumentasjon og funn fra penetrasjonstesting av Android-applikasjon.</p>
-            <a href="https://github.com/abdulr15352/abdulr15352/tree/main/Pentesting" target="_blank" class="project-link" data-key="proj_link8">View Repo →</a>
+    <section class="contact" id="kontakt">
+      <div class="wrap">
+        <div class="contact-card">
+          <div>
+            <p class="eyebrow">Ta kontakt</p>
+            <h2>Har dere et miljÃ¸ jeg kan bli skikkelig god i?</h2>
+            <p>Jeg er interessert i roller innen cybersikkerhet og IT-sikkerhet der jeg kan bidra praktisk fra start og utvikle meg videre sammen med flinke folk.</p>
+          </div>
+          <div class="contact-links">
+            <a href="mailto:abdulr15352@gmail.com"><span>E-post</span><span aria-hidden="true">â†—</span></a>
+            <a href="tel:+4793951945"><span>+47 939 51 945</span><span aria-hidden="true">â†—</span></a>
+            <a href="https://www.linkedin.com/in/abdul-rafeh-alvi-8b9a00290/" target="_blank" rel="noreferrer"><span>LinkedIn</span><span aria-hidden="true">â†—</span></a>
+            <a href="https://github.com/abdulr15352" target="_blank" rel="noreferrer"><span>GitHub</span><span aria-hidden="true">â†—</span></a>
+          </div>
         </div>
-
-    </div>
-</section>
-
-<!-- FOOTER / CONTACT -->
-<footer id="contact">
-    <div class="footer-name">Abdul-Rafeh Alvi</div>
-    <p style="color:var(--muted);font-size:0.88rem;" data-key="footer_role">M.S.C Cybersecurity | CompTIA Security+</p>
-    <div class="footer-links">
-        <a href="mailto:abdulr15352@gmail.com">abdulr15352@gmail.com</a>
-        <a href="tel:+4793951945">+47 939 51 945</a>
-        <a href="https://www.linkedin.com/in/abdul-rafeh-alvi-8b9a00290" target="_blank">LinkedIn</a>
-        <a href="https://github.com/abdulr15352" target="_blank">GitHub</a>
-    </div>
-    <p class="footer-copy" data-key="footer_copy">© 2026 Abdul-Rafeh Alvi · Oslo, Norge</p>
-</footer>
-
-<script>
-// ── HACKER INTRO ──────────────────────────────────────────────────────────────
-(function () {
-    const overlay  = document.getElementById('hacker-overlay');
-    const canvas   = document.getElementById('matrix-canvas');
-    const ctx      = canvas.getContext('2d');
-    const output   = document.getElementById('terminal-output');
-    const cursor   = document.getElementById('t-cursor');
-
-    // Matrix rain setup
-    const CHARS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/\\|{}[]!@#$%^&*';
-    let cols, drops;
-
-    function resize() {
-        canvas.width  = window.innerWidth;
-        canvas.height = window.innerHeight;
-        cols  = Math.floor(canvas.width / 18);
-        drops = Array(cols).fill(1);
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    function drawMatrix() {
-        ctx.fillStyle = 'rgba(0,0,0,0.055)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < cols; i++) {
-            const ch = CHARS[Math.floor(Math.random() * CHARS.length)];
-            // Head of stream — bright white
-            ctx.fillStyle = '#ffffff';
-            ctx.font = '14px monospace';
-            ctx.fillText(ch, i * 18, drops[i] * 18);
-            // Trail — green
-            ctx.fillStyle = i % 3 === 0 ? '#00ff88' : '#008844';
-            ctx.fillText(CHARS[Math.floor(Math.random() * CHARS.length)], i * 18, (drops[i] - 1) * 18);
-            if (drops[i] * 18 > canvas.height && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
-        }
-    }
-
-    let matrixInterval = setInterval(drawMatrix, 40);
-
-    // Terminal typing sequence
-    const lines = [
-        { text: '> Initializing secure connection...', cls: 't-prompt', delay: 0 },
-        { text: '> Target: abdulr15352.github.io', cls: 't-prompt', delay: 700 },
-        { text: '[ OK ] Connection established', cls: 't-ok', delay: 1400 },
-        { text: '> Scanning credentials...', cls: 't-prompt', delay: 2000 },
-        { text: '  CompTIA Security+   ████████████  VERIFIED', cls: 't-dim', delay: 2600 },
-        { text: '  TryHackMe Top 3%    ████████████  VERIFIED', cls: 't-dim', delay: 3100 },
-        { text: '  M.S.C Cybersecurity ████████████  VERIFIED', cls: 't-dim', delay: 3600 },
-        { text: '[ OK ] Identity confirmed', cls: 't-ok', delay: 4200 },
-        { text: '> Loading profile...', cls: 't-prompt', delay: 4800 },
-        { text: '[ WARN ] High-value target detected', cls: 't-warn', delay: 5500 },
-        { text: '', cls: '', delay: 6000 },
-        { text: '  ██████████████████████████████', cls: 't-ok', delay: 6200 },
-        { text: '     ABDUL-RAFEH ALVI', cls: 't-name', delay: 6500 },
-        { text: '     Cybersecurity · Oslo, Norge', cls: 't-ok', delay: 6800 },
-        { text: '  ██████████████████████████████', cls: 't-ok', delay: 7000 },
-        { text: '', cls: '', delay: 7300 },
-        { text: '> Access granted. Launching portfolio...', cls: 't-prompt', delay: 7700 },
-    ];
-
-    let lineIndex = 0;
-    const timers = [];
-
-    function scheduleLines() {
-        lines.forEach((line, i) => {
-            const t = setTimeout(() => {
-                const span = document.createElement('span');
-                span.className = 't-line ' + line.cls;
-                span.textContent = line.text;
-                output.appendChild(span);
-                output.parentElement.scrollTop = output.parentElement.scrollHeight;
-            }, line.delay);
-            timers.push(t);
-        });
-    }
-
-    scheduleLines();
-
-    // Auto-dismiss after 10 seconds
-    const dismissTimer = setTimeout(dismissIntro, 10000);
-    timers.push(dismissTimer);
-
-    function dismissIntro() {
-        timers.forEach(clearTimeout);
-        clearInterval(matrixInterval);
-        overlay.classList.add('fade-out');
-        setTimeout(() => { overlay.remove(); }, 1300);
-    }
-
-    window.skipIntro = function () { dismissIntro(); };
-})();
-
-// ── TRANSLATIONS ──────────────────────────────────────────────────────────────
-const T = {
-    no: {
-        nav_about: "Om", nav_exp: "Erfaring", nav_edu: "Utdanning",
-        nav_cert: "Sertifikater", nav_skills: "Ferdigheter",
-        nav_proj: "Prosjekter", nav_contact: "Kontakt",
-        hero_otw: "Åpen for jobb",
-        hero_tag: "Cybersikkerhet · Oslo, Norge",
-        hero_sub: "Masterstudent i cybersikkerhet med CompTIA Security+, topp 3 % på TryHackMe, og en strukturert tilnærming til analyse, dokumentasjon og feilsøking under tidspress.",
-        hero_btn_contact: "Kontakt meg", hero_btn_projects: "Se prosjekter",
-        stat1_label: "TryHackMe topp", stat2_label: "CompTIA Sertifisering",
-        stat3_label: "År relevant erfaring", stat4_label: "GitHub-prosjekter",
-        sec_label_about: "Om", sec_h2_about: "Om meg",
-        about_text: "Masterstudent i Cybersikkerhet ved Høyskolen Kristiania med bachelor i samme fagfelt og CompTIA Security+. Praktisk erfaring innen penetrasjonstesting, skysikkerhet og hendelseshåndtering. Har veiledet studenter i etisk hacking og offensive metoder, og ønsker å bruke teknisk kompetanse i en relevant rolle innen cybersikkerhet eller IT-sikkerhet. Aktiv deltaker på TryHackMe (topp 3 %) og HackTheBox.",
-        sec_label_exp: "Erfaring", sec_h2_exp: "Arbeidserfaring",
-        subsec_relevant: "Relevant erfaring", subsec_other: "Annen erfaring",
-        exp1_title: "Kundeansvarlig – Teknisk Support (40 %)",
-        exp1_date: "Apr 2025 – Mar 2026",
-        exp1_b1: "Inngående telefonsupport for privatkunder på mobil, TV og bredbånd — oppsett, faktura, feilsøking og salg",
-        exp1_b2: "Systematisk feilsøking av internettlinjer og nettverksutstyr; håndterte komplekse og ukjente problemstillinger",
-        exp1_b3: "Målt på salg, effektivitet og kvalitet med tilfredsstillende resultater",
-        exp2_title: "Penetration Tester",
-        exp2_date: "Jan 2025 – Jun 2025",
-        exp2_b1: "Penetrasjonstesting av Android-applikasjon med fokus på OWASP Mobile Top 10 — statisk analyse (jadx-gui), automatisert skanning (MobSF), dynamisk analyse (Frida og Objection)",
-        exp2_b2: "Konfigurerte Android-emulator i Android Studio for reproduserbar testing i kontrollert miljø",
-        exp2_b3: "Identifiserte og dokumenterte sårbarheter og leverte konkrete forbedringsforslag til utviklingsteamet",
-        exp3_title: "Studentveileder – Etisk Hacking & Skysikkerhet",
-        exp3_date: "Aug 2024 – Des 2024",
-        exp3_b1: "Veiledet studenter i penetrasjonstesting og offensiv metodikk med Kali Linux, Nmap, Metasploit og utnyttingsteknikker",
-        exp3_b2: "Støttet studenter gjennom labøvelser i skysikkerhet (Azure, AWS) og nettverkssikkerhet",
-        exp3_b3: "Forklarte tekniske konsepter og verktøy på en pedagogisk og tydelig måte",
-        exp_other_title: "Merkevarerepresentant / Butikkmedarbeider / Koronavert",
-        exp_other_date: "2021 – 2025",
-        exp_other_b1: "Promoterte merkevarer i dagligvarebutikker og andre markedsføringsaktiviteter (Bloom Oslo AS, 2023–2025)",
-        exp_other_b2: "Plukket og klargjorde kundebestillinger for levering og henting (MENY Netthandel, 2022–2024)",
-        exp_other_b3: "Veiledet besøkende og sørget for at smitteverntiltak ble fulgt (Oslo kommune, 2021)",
-        sec_label_edu: "Utdanning", sec_h2_edu: "Utdanning",
-        edu1_title: "Master i Cybersikkerhet", edu2_title: "Bachelor i Cybersikkerhet",
-        edu1_desc: "Pågående mastergrad med fordypning innen trusselanalyse, sikkerhetsstyring og beskyttelse av digitale systemer. Bygger videre på teknisk bakgrunn og gir dypere forståelse av både strategiske og operative aspekter ved cybersikkerhet.",
-        edu2_desc: "Bachelorgrad med kunnskap innen nettverkssikkerhet, etisk hacking, risikovurdering og skytjenester. Ga både teoretisk forståelse og praktisk erfaring med å identifisere, analysere og håndtere sikkerhetsutfordringer i digitale systemer.",
-        sec_label_cert: "Sertifikater", sec_h2_cert: "Sertifiseringer",
-        cert_issued: "Utstedt", cert_expires: "Utløper",
-        cert_desc: "Internasjonalt anerkjent sertifisering innen cybersikkerhet. Dekker nettverkssikkerhet, kryptografi, trusselanalyse, hendelseshåndtering og risikostyring — et solid fundament for videre spesialisering.",
-        sec_label_skills: "Ferdigheter", sec_h2_skills: "Tekniske ferdigheter",
-        skill_cat1: "Penetration Testing", skill_cat2: "SIEM / Trusselintelligens",
-        skill_cat3: "Sky & DevSecOps", skill_cat4: "Rammeverk & Standarder",
-        skill_cat5: "Plattformer & Virtualisering",
-        sec_label_lang: "Språk",
-        lang1_name: "Norsk", lang1_level: "Morsmål",
-        lang2_name: "Engelsk", lang2_level: "Flytende",
-        lang3_name: "Urdu", lang3_level: "Flytende",
-        lang4_name: "Punjabi", lang4_level: "Flytende",
-        lang5_name: "Fransk", lang5_level: "Grunnleggende",
-        sec_label_proj: "Prosjekter", sec_h2_proj: "GitHub-prosjekter",
-        proj1_desc: "Deploy enkle webapplikasjoner til Azure cloud-plattformen.",
-        proj2_desc: "Deploy en webapplikasjon bak en brannmur på Azure.",
-        proj3_desc: "Bankapplikasjon med TOTP for to-faktor autentisering og sikkerhet.",
-        proj4_desc: "DevOps-pipeline for notat-app med GitHub Actions for automatisk bygging og deployment til Azure VM.",
-        proj5_desc: "Nettverksskanner programmert i Python for å kartlegge enheter og tjenester.",
-        proj6_desc: "ESP32 temperatursensor med e-postvarsler ved grenseverdier.",
-        proj7_desc: "Python-script for å endre MAC-adresse på nettverksgrensesnitt.",
-        proj8_desc: "Dokumentasjon og funn fra penetrasjonstesting av Android-applikasjon.",
-        proj_link:"Se repo →", proj_link2:"Se repo →", proj_link3:"Se repo →", proj_link4:"Se repo →",
-        proj_link5:"Se repo →", proj_link6:"Se repo →", proj_link7:"Se repo →", proj_link8:"Se repo →",
-        footer_role: "M.S.C Cybersikkerhet | CompTIA Security+",
-        footer_copy: "© 2026 Abdul-Rafeh Alvi · Oslo, Norge"
-    },
-    en: {
-        nav_about: "About", nav_exp: "Experience", nav_edu: "Education",
-        nav_cert: "Certifications", nav_skills: "Skills",
-        nav_proj: "Projects", nav_contact: "Contact",
-        hero_otw: "Open to Work",
-        hero_tag: "Cybersecurity · Oslo, Norway",
-        hero_sub: "Master's student in Cybersecurity with CompTIA Security+, top 3% on TryHackMe, and a structured approach to analysis, documentation, and troubleshooting under pressure.",
-        hero_btn_contact: "Contact Me", hero_btn_projects: "View Projects",
-        stat1_label: "TryHackMe top", stat2_label: "CompTIA Certification",
-        stat3_label: "Years relevant exp.", stat4_label: "GitHub Projects",
-        sec_label_about: "About", sec_h2_about: "About Me",
-        about_text: "Master's student in Cybersecurity at Høyskolen Kristiania with a bachelor's in the same field and CompTIA Security+. Hands-on experience in penetration testing, cloud security, and incident handling. Guided students in ethical hacking and offensive methodologies, and looking to apply technical skills in a relevant cybersecurity or IT security role. Active on TryHackMe (top 3%) and HackTheBox.",
-        sec_label_exp: "Experience", sec_h2_exp: "Work Experience",
-        subsec_relevant: "Relevant experience", subsec_other: "Other experience",
-        exp1_title: "Customer Account Manager – Technical Support (40%)",
-        exp1_date: "Apr 2025 – Mar 2026",
-        exp1_b1: "Inbound phone support for private customers on mobile, TV and broadband — setup, billing, troubleshooting and sales",
-        exp1_b2: "Systematic troubleshooting of internet lines and network equipment; handled complex and novel issues",
-        exp1_b3: "Measured on sales, efficiency and quality with satisfactory results",
-        exp2_title: "Penetration Tester",
-        exp2_date: "Jan 2025 – Jun 2025",
-        exp2_b1: "Penetration testing of Android application focused on OWASP Mobile Top 10 — static analysis (jadx-gui), automated scanning (MobSF), dynamic analysis (Frida and Objection)",
-        exp2_b2: "Configured Android emulator in Android Studio for reproducible testing in a controlled environment",
-        exp2_b3: "Identified and documented vulnerabilities and delivered concrete improvement recommendations to the development team",
-        exp3_title: "Student Mentor – Ethical Hacking & Cloud Security",
-        exp3_date: "Aug 2024 – Dec 2024",
-        exp3_b1: "Guided students in penetration testing and offensive methodology using Kali Linux, Nmap, Metasploit and exploitation techniques",
-        exp3_b2: "Supported students through lab exercises in cloud security (Azure, AWS) and network security",
-        exp3_b3: "Explained technical concepts and tools in a clear and pedagogical manner",
-        exp_other_title: "Brand Ambassador / Store Assistant / Covid Coordinator",
-        exp_other_date: "2021 – 2025",
-        exp_other_b1: "Promoted brands in grocery stores and other marketing activities (Bloom Oslo AS, 2023–2025)",
-        exp_other_b2: "Picked and prepared customer orders for delivery and collection (MENY Netthandel, 2022–2024)",
-        exp_other_b3: "Guided visitors and ensured infection control measures were followed (Oslo kommune, 2021)",
-        sec_label_edu: "Education", sec_h2_edu: "Education",
-        edu1_title: "Master's degree, Cybersecurity", edu2_title: "Bachelor's degree, Cybersecurity",
-        edu1_desc: "Ongoing Master's degree with a focus on threat analysis, security management and protection of digital systems. Builds on a technical foundation and provides a deeper understanding of both strategic and operational aspects of cybersecurity.",
-        edu2_desc: "Bachelor's degree covering network security, ethical hacking, risk assessment and cloud services. Provided both theoretical understanding and practical experience in identifying, analysing and handling security challenges in digital systems.",
-        sec_label_cert: "Certifications", sec_h2_cert: "Certifications",
-        cert_issued: "Issued", cert_expires: "Expires",
-        cert_desc: "Internationally recognised certification in cybersecurity. Covers network security, cryptography, threat analysis, incident handling and risk management — a solid foundation for further specialisation.",
-        sec_label_skills: "Skills", sec_h2_skills: "Technical Skills",
-        skill_cat1: "Penetration Testing", skill_cat2: "SIEM / Threat Intelligence",
-        skill_cat3: "Cloud & DevSecOps", skill_cat4: "Frameworks & Standards",
-        skill_cat5: "Platforms & Virtualisation",
-        sec_label_lang: "Languages",
-        lang1_name: "Norwegian", lang1_level: "Native",
-        lang2_name: "English", lang2_level: "Fluent",
-        lang3_name: "Urdu", lang3_level: "Fluent",
-        lang4_name: "Punjabi", lang4_level: "Fluent",
-        lang5_name: "French", lang5_level: "Basic",
-        sec_label_proj: "Projects", sec_h2_proj: "GitHub Projects",
-        proj1_desc: "Deploy simple web applications to the Azure cloud platform.",
-        proj2_desc: "Deploy a web application behind a firewall on Azure.",
-        proj3_desc: "Banking application with TOTP for two-factor authentication and security.",
-        proj4_desc: "DevOps pipeline for a note-taking app using GitHub Actions for automatic build and deployment to an Azure VM.",
-        proj5_desc: "Network scanner programmed in Python to map devices and services.",
-        proj6_desc: "ESP32 temperature sensor with email alerts at threshold values.",
-        proj7_desc: "Python script to change MAC address on network interfaces.",
-        proj8_desc: "Documentation and findings from penetration testing of an Android application.",
-        proj_link:"View Repo →", proj_link2:"View Repo →", proj_link3:"View Repo →", proj_link4:"View Repo →",
-        proj_link5:"View Repo →", proj_link6:"View Repo →", proj_link7:"View Repo →", proj_link8:"View Repo →",
-        footer_role: "M.S.C Cybersecurity | CompTIA Security+",
-        footer_copy: "© 2026 Abdul-Rafeh Alvi · Oslo, Norway"
-    }
-};
-
-let currentLang = 'no';
-
-function applyLanguage(lang) {
-    const dict = T[lang];
-    document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (dict[key] !== undefined) el.textContent = dict[key];
-    });
-    document.documentElement.lang = lang === 'no' ? 'nb' : 'en';
-    document.getElementById('langBtn').textContent = lang === 'no' ? 'EN' : 'NO';
-    // restart typewriter with new text
-    typewriterText = dict['hero_sub'] || '';
-    typewriterIndex = 0;
-    document.getElementById('hero-sub-text').textContent = '';
-    clearTimeout(typewriterTimer);
-    typewriterTimer = setTimeout(typeStep, 200);
-}
-
-function toggleLanguage() {
-    currentLang = currentLang === 'no' ? 'en' : 'no';
-    applyLanguage(currentLang);
-}
-
-// ── TYPEWRITER ─────────────────────────────────────────────────────────────────
-let typewriterText = T.no.hero_sub;
-let typewriterIndex = 0;
-let typewriterTimer;
-
-function typeStep() {
-    const el = document.getElementById('hero-sub-text');
-    if (typewriterIndex < typewriterText.length) {
-        el.textContent += typewriterText[typewriterIndex++];
-        typewriterTimer = setTimeout(typeStep, 18);
-    }
-}
-
-// ── SCROLL PROGRESS ────────────────────────────────────────────────────────────
-function updateScrollProgress() {
-    const scrolled = window.scrollY;
-    const total = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = total > 0 ? (scrolled / total) * 100 : 0;
-    document.getElementById('scroll-progress').style.width = pct + '%';
-}
-
-window.addEventListener('scroll', updateScrollProgress, { passive: true });
-
-// ── INTERSECTION OBSERVER ──────────────────────────────────────────────────────
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            e.target.classList.add('visible');
-        }
-    });
-}, { threshold: 0.08 });
-
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-// ── INIT ───────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-    applyLanguage('no');
-    setTimeout(typeStep, 900);
-});
-</script>
+        <footer><span>Â© 2026 Abdul-Rafeh Alvi</span><span>Bygget med omtanke i Oslo.</span></footer>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
