@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Abdul-Rafeh Alvi er IT-konsulent i NOKUT og masterstudent i cybersikkerhet, med erfaring innen Microsoft-sky, sikkerhetstesting, risikovurdering og IT-drift.">
+  <meta name="theme-color" content="#f3f0e8">
+  <meta property="og:title" content="Abdul-Rafeh Alvi | IT og cybersikkerhet">
+  <meta property="og:description" content="Praktisk IT-drift, skysikkerhet, sikkerhetstesting og risikostyring.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://abdulr15352.github.io/">
+  <title>Abdul-Rafeh Alvi | IT og cybersikkerhet</title>
+  <style>
+    :root {
+      --paper: #f3f0e8;
+      --paper-deep: #e7e1d4;
+      --ink: #18221d;
+      --muted: #58635d;
+      --green: #153f35;
+      --green-soft: #dce5dc;
+      --orange: #c9582b;
+      --line: rgba(24, 34, 29, .18);
+      --white: #fbfaf6;
+      --radius: 18px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+    .skip-link { position: absolute; left: -9999px; top: 1rem; z-index: 20; background: var(--ink); color: white; padding: .75rem 1rem; }
+    .skip-link:focus { left: 1rem; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(243, 240, 232, .92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+    .mark { display: inline-flex; align-items: center; gap: .8rem; text-decoration: none; font-weight: 760; letter-spacing: -.02em; }
+    .mark-box { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: var(--green); color: var(--paper); font-size: .76rem; letter-spacing: .08em; }
+    .nav-links { display: flex; align-items: center; gap: 1.4rem; list-style: none; margin: 0; padding: 0; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: .92rem; font-weight: 650; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-contact { border-bottom: 2px solid var(--orange); color: var(--ink) !important; }
+
+    main { overflow: hidden; }
+    .hero { padding: clamp(5rem, 10vw, 9rem) 0 4rem; border-bottom: 1px solid var(--line); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, .65fr); align-items: end; gap: clamp(3rem, 8vw, 8rem); }
+    .eyebrow { display: flex; align-items: center; gap: .7rem; margin: 0 0 1.3rem; color: var(--green); font-size: .78rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 26px; height: 3px; background: var(--orange); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 900px; margin-bottom: 1.7rem; font-family: Georgia, "Times New Roman", serif; font-size: clamp(3.25rem, 8vw, 7.6rem); font-weight: 500; line-height: .91; letter-spacing: -.065em; }
+    h1 em { color: var(--orange); font-weight: 500; }
+    .lead { max-width: 730px; margin-bottom: 2rem; color: #39463f; font-size: clamp(1.08rem, 1.9vw, 1.34rem); line-height: 1.55; }
+    .actions { display: flex; flex-wrap: wrap; gap: .8rem; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; min-height: 48px; padding: .75rem 1.1rem; border: 1px solid var(--ink); border-radius: 999px; text-decoration: none; font-weight: 750; transition: transform .18s ease, background .18s ease, color .18s ease; }
+    .button.primary { background: var(--ink); color: var(--paper); }
+    .button:hover { transform: translateY(-2px); }
+    .button.primary:hover { background: var(--green); }
+    .button.secondary:hover { background: var(--white); }
+
+    .profile-note { position: relative; padding: 1.4rem; background: var(--green); color: var(--paper); border-radius: var(--radius); transform: rotate(1.2deg); box-shadow: 14px 14px 0 var(--paper-deep); }
+    .profile-note::before { content: "AR"; display: grid; place-items: center; width: 76px; height: 76px; margin-bottom: 2.5rem; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; font-family: Georgia, serif; font-size: 1.45rem; }
+    .profile-note p { margin-bottom: .35rem; }
+    .profile-note strong { font-size: 1.08rem; }
+    .profile-note small { color: rgba(255,255,255,.72); }
+    .status { display: flex; align-items: center; gap: .55rem; margin-top: 1.5rem; font-size: .84rem; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #f1b34c; box-shadow: 0 0 0 5px rgba(241,179,76,.13); }
+
+    .proof { border-bottom: 1px solid var(--line); }
+    .proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .proof-item { padding: 1.65rem 1.2rem; border-right: 1px solid var(--line); }
+    .proof-item:first-child { padding-left: 0; }
+    .proof-item:last-child { border-right: 0; }
+    .proof-value { display: block; color: var(--green); font-family: Georgia, serif; font-size: 2.25rem; line-height: 1; }
+    .proof-label { display: block; margin-top: .4rem; color: var(--muted); font-size: .82rem; }
+
+    section { padding: clamp(4.5rem, 8vw, 7.5rem) 0; }
+    .section-head { display: grid; grid-template-columns: .6fr 1.4fr; gap: 3rem; margin-bottom: 3.4rem; }
+    .kicker { color: var(--orange); font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    h2 { max-width: 780px; margin-bottom: .8rem; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.35rem, 5vw, 4.6rem); font-weight: 500; line-height: 1.02; letter-spacing: -.045em; }
+    .section-intro { max-width: 730px; color: var(--muted); font-size: 1.08rem; }
+
+    .role-list { border-top: 1px solid var(--line); }
+    .role { display: grid; grid-template-columns: .55fr 1.45fr; gap: 3rem; padding: 2.2rem 0; border-bottom: 1px solid var(--line); }
+    .role-meta span { display: block; }
+    .role-date { color: var(--orange); font-size: .82rem; font-weight: 800; text-transform: uppercase; letter-spacing: .09em; }
+    .role-company { margin-top: .35rem; color: var(--muted); }
+    .role h3 { margin-bottom: .65rem; font-size: 1.35rem; letter-spacing: -.025em; }
+    .role p { max-width: 780px; margin-bottom: .9rem; color: #46534c; }
+    .plain-list { margin: 0; padding-left: 1.15rem; color: #46534c; }
+    .plain-list li + li { margin-top: .35rem; }
+
+    .dark { background: var(--green); color: var(--paper); }
+    .dark .kicker { color: #f1a37f; }
+    .dark .section-intro { color: rgba(255,255,255,.68); }
+    .skill-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.2); }
+    .skill-card { min-height: 270px; padding: 1.7rem; background: var(--green); }
+    .skill-no { color: #f1a37f; font-family: Georgia, serif; font-size: 1.8rem; }
+    .skill-card h3 { margin: 2.2rem 0 .7rem; font-size: 1.15rem; }
+    .skill-card p { margin-bottom: 0; color: rgba(255,255,255,.68); font-size: .94rem; }
+
+    .study-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(2.5rem, 7vw, 7rem); }
+    .study-highlight { align-self: start; padding: 2rem; background: var(--orange); color: var(--white); border-radius: var(--radius); }
+    .study-highlight strong { display: block; font-family: Georgia, serif; font-size: 5rem; line-height: .9; font-weight: 500; }
+    .study-highlight p { margin: .8rem 0 0; }
+    .course-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+    .course { display: grid; grid-template-columns: 78px 1fr auto; gap: 1rem; align-items: start; padding: 1.15rem 0; border-bottom: 1px solid var(--line); }
+    .course-code { color: var(--orange); font-size: .78rem; font-weight: 850; letter-spacing: .07em; }
+    .course strong { display: block; }
+    .course small { display: block; margin-top: .2rem; color: var(--muted); }
+    .grade { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--green); border-radius: 50%; color: var(--green); font-weight: 850; }
+
+    .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .project { display: flex; flex-direction: column; min-height: 315px; padding: 1.7rem; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); }
+    .project:nth-child(3n) { grid-column: span 2; min-height: 250px; }
+    .project-label { color: var(--orange); font-size: .75rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .project h3 { margin: auto 0 .7rem; max-width: 600px; font-family: Georgia, serif; font-size: clamp(1.55rem, 3vw, 2.35rem); font-weight: 500; line-height: 1.08; }
+    .project p { max-width: 720px; margin-bottom: 0; color: var(--muted); }
+
+    .credentials { background: var(--paper-deep); }
+    .credential-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .credential { padding: 1.7rem; background: var(--paper); border-top: 4px solid var(--green); }
+    .credential small { color: var(--orange); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .credential h3 { margin: 1.5rem 0 .5rem; font-size: 1.35rem; }
+    .credential p { color: var(--muted); margin-bottom: 0; }
+    .micro { margin-top: 1rem; font-size: .85rem; color: var(--muted); }
+
+    .contact { padding-bottom: 3rem; }
+    .contact-card { display: grid; grid-template-columns: 1.25fr .75fr; gap: 3rem; align-items: end; padding: clamp(2rem, 6vw, 4rem); background: var(--ink); color: var(--paper); border-radius: var(--radius); }
+    .contact-card h2 { margin-bottom: 1rem; }
+    .contact-card p { max-width: 640px; color: rgba(255,255,255,.67); }
+    .contact-links { display: grid; gap: .65rem; }
+    .contact-links a { display: flex; justify-content: space-between; gap: 1rem; padding: .85rem 0; border-bottom: 1px solid rgba(255,255,255,.25); text-decoration: none; font-weight: 700; }
+    .contact-links a:hover { color: #f1a37f; }
+    footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.6rem 0; color: var(--muted); font-size: .82rem; }
+
+    @media (max-width: 850px) {
+      .nav-links li:not(:last-child) { display: none; }
+      .hero-grid, .section-head, .role, .study-layout, .contact-card { grid-template-columns: 1fr; }
+      .hero-grid { align-items: start; }
+      .profile-note { max-width: 430px; transform: none; }
+      .proof-grid { grid-template-columns: repeat(2, 1fr); }
+      .proof-item:nth-child(2) { border-right: 0; }
+      .proof-item:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .proof-item:nth-child(3) { padding-left: 0; }
+      .skill-grid { grid-template-columns: 1fr 1fr; }
+      .role { gap: .8rem; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { width: min(calc(100% - 28px), var(--max)); }
+      .mark > span:last-child { display: none; }
+      h1 { font-size: clamp(3rem, 18vw, 5rem); }
+      .proof-grid, .skill-grid, .project-grid, .credential-grid { grid-template-columns: 1fr; }
+      .proof-item { border-right: 0; border-bottom: 1px solid var(--line); padding-left: 0; }
+      .project:nth-child(3n) { grid-column: auto; }
+      .course { grid-template-columns: 64px 1fr auto; }
+      footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Abdul-Rafeh Alvi",
+    "url": "https://abdulr15352.github.io/",
+    "jobTitle": "Førstekonsulent IT",
+    "worksFor": { "@type": "Organization", "name": "NOKUT" },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "Høyskolen Kristiania" },
+    "sameAs": [
+      "https://www.linkedin.com/in/abdul-rafeh-alvi-8b9a00290/",
+      "https://github.com/abdulr15352"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#innhold">Hopp til innhold</a>
+  <header>
+    <nav class="wrap" aria-label="Hovedmeny">
+      <a class="mark" href="#topp" aria-label="Til toppen">
+        <span class="mark-box">ARA</span>
+        <span>Abdul-Rafeh Alvi</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#erfaring">Erfaring</a></li>
+        <li><a href="#kompetanse">Kompetanse</a></li>
+        <li><a href="#prosjekter">Prosjekter</a></li>
+        <li><a class="nav-contact" href="#kontakt">Ta kontakt</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="innhold">
+    <section class="hero" id="topp">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">IT-drift · Cybersikkerhet · Oslo</p>
+          <h1>Jeg sikrer det som skal <em>fungere.</em></h1>
+          <p class="lead">Fra identitet og skydrift til sikkerhetstesting og risikovurdering. Jeg kombinerer teknisk nysgjerrighet med struktur, god dokumentasjon og en praktisk forståelse av hvordan IT faktisk brukes i en organisasjon.</p>
+          <div class="actions">
+            <a class="button primary" href="#erfaring">Se hva jeg har gjort <span aria-hidden="true">↓</span></a>
+            <a class="button secondary" href="https://www.linkedin.com/in/abdul-rafeh-alvi-8b9a00290/" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <aside class="profile-note" aria-label="Kort profil">
+          <p><strong>Abdul-Rafeh Alvi</strong></p>
+          <p><small>Førstekonsulent IT i NOKUT<br>Masterstudent i cybersikkerhet</small></p>
+          <div class="status"><span class="status-dot" aria-hidden="true"></span> Åpen for relevante sikkerhetsroller</div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="proof" aria-label="Nøkkeltall">
+      <div class="wrap proof-grid">
+        <div class="proof-item"><span class="proof-value">240</span><span class="proof-label">oppnådde studiepoeng</span></div>
+        <div class="proof-item"><span class="proof-value">7/8</span><span class="proof-label">A-er første masterår</span></div>
+        <div class="proof-item"><span class="proof-value">Security+</span><span class="proof-label">gyldig til august 2028</span></div>
+        <div class="proof-item"><span class="proof-value">2026</span><span class="proof-label">IT-rolle i NOKUT</span></div>
+      </div>
+    </div>
+
+    <section id="erfaring">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">01 / Erfaring</div>
+          <div>
+            <h2>Teknikk, mennesker og ansvar i samme rolle.</h2>
+            <p class="section-intro">Jeg liker oppgaver som krever at noen både forstår detaljene og holder oversikt: løse et driftsproblem, stille de riktige sikkerhetsspørsmålene og forklare valgene tydelig videre.</p>
+          </div>
+        </div>
+
+        <div class="role-list">
+          <article class="role">
+            <div class="role-meta"><span class="role-date">Mai 2026 – nå</span><span class="role-company">NOKUT · Oslo / hybrid</span></div>
+            <div>
+              <h3>Førstekonsulent IT</h3>
+              <p>Teknisk drift, brukerstøtte og administrasjon på tvers av Microsoft Azure, Entra ID, Intune, Microsoft 365 og klientinfrastruktur.</p>
+              <ul class="plain-list">
+                <li>Bidrar i ROS- og DPIA-vurderinger og rådgir om personvern, risiko, governance og compliance.</li>
+                <li>Forvalter enheter, asset management, mobilenheter og abonnement, og følger opp on-site support.</li>
+                <li>Følger opp leverandører, anskaffelser og nye IT-løsninger med strukturert dokumentasjon.</li>
+                <li>Bidrar med budsjettering og økonomioppfølging i Excel for IT-driften.</li>
+                <li>Deltar i overgang til ny driftsleverandør, fra krav og løsningsdesign til MDM, beredskap, testing, opplæring og ordinær drift.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="role">
+            <div class="role-meta"><span class="role-date">Jan – jun 2025</span><span class="role-company">Bidder AS · Oslo</span></div>
+            <div>
+              <h3>Penetration Tester</h3>
+              <p>Testet en Android-applikasjon gjennom statisk analyse med jadx-gui, automatisert skanning med MobSF og dynamisk analyse med Frida og Objection.</p>
+              <ul class="plain-list">
+                <li>Konfigurerte Android-emulator i Android Studio for reproduserbar testing i kontrollert miljø.</li>
+                <li>Dokumenterte funn og leverte konkrete forbedringsforslag til utviklingsteamet.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="role">
+            <div class="role-meta"><span class="role-date">Aug – des 2024</span><span class="role-company">Høyskolen Kristiania</span></div>
+            <div>
+              <h3>Studentveileder i etisk hacking og skysikkerhet</h3>
+              <p>Veiledet studenter gjennom labøvelser og offensiv metodikk med Kali Linux, Nmap, Metasploit og Azure. Rollen lærte meg å bryte komplekse problemer ned i forståelige steg – uten å gjøre jobben for studenten.</p>
+            </div>
+          </article>
+
+          <article class="role">
+            <div class="role-meta"><span class="role-date">Apr 2025 – mar 2026</span><span class="role-company">Telenor · Fornebu</span></div>
+            <div>
+              <h3>Kundeansvarlig / teknisk support</h3>
+              <p>Startet sesongbasert og fortsatte deltid. Ga kundesupport, feilsøkte internettlinjer og nettverksutstyr, håndterte nye og komplekse problemstillinger og gjennomførte behovsanalyser.</p>
+            </div>
+          </article>
+
+          <article class="role">
+            <div class="role-meta"><span class="role-date">2021 – 2025</span><span class="role-company">Ahead Connect · MENY · Oslo kommune</span></div>
+            <div>
+              <h3>Service og kundearbeid</h3>
+              <p>Rollene som merkevarerepresentant, butikkmedarbeider og koronavert har gitt meg ro i kundedialogen, god gjennomføringsevne og respekt for brukerens perspektiv.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark" id="kompetanse">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">02 / Kompetanse</div>
+          <div>
+            <h2>Fra offensiv testing til trygg drift.</h2>
+            <p class="section-intro">Verktøy er nyttige, men det viktigste er hva de brukes til. Dette er områdene der utdanning og praksis møtes.</p>
+          </div>
+        </div>
+
+        <div class="skill-grid">
+          <article class="skill-card"><span class="skill-no">01</span><h3>Microsoft-sky og identitet</h3><p>Azure, Entra ID, Intune, Microsoft 365, klientforvaltning, MDM og grunnleggende skyarkitektur.</p></article>
+          <article class="skill-card"><span class="skill-no">02</span><h3>Sikkerhetstesting</h3><p>Kali Linux, Burp Suite, Nmap, Metasploit, OWASP ZAP, MobSF, Frida, Objection og metodisk rapportering.</p></article>
+          <article class="skill-card"><span class="skill-no">03</span><h3>Risiko og etterlevelse</h3><p>ROS, DPIA, GDPR, governance, compliance, sikkerhetskrav og risikobasert prioritering.</p></article>
+          <article class="skill-card"><span class="skill-no">04</span><h3>Trusselintelligens</h3><p>CTI-livssyklus, OSINT, artefakt- og logganalyse, attribusjon, triage, SIEM og MITRE ATT&amp;CK.</p></article>
+          <article class="skill-card"><span class="skill-no">05</span><h3>Sikker utvikling</h3><p>Secure SDLC, CI/CD, DevSecOps, security by design og scripting i Python, Bash og JavaScript.</p></article>
+          <article class="skill-card"><span class="skill-no">06</span><h3>Prosjekt og formidling</h3><p>Leverandøroppfølging, anskaffelser, akseptansetesting, dokumentasjon, opplæring og presentasjon for ledelsen.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="utdanning">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">03 / Faglig dybde</div>
+          <div>
+            <h2>Fagkodene, oversatt til faktisk kompetanse.</h2>
+            <p class="section-intro">Første masterår er fullført med 60 studiepoeng: syv A-er og én B. Under er et utvalg av det emnene dokumenterer at jeg har jobbet med.</p>
+          </div>
+        </div>
+
+        <div class="study-layout">
+          <aside class="study-highlight"><strong>7A</strong><p>av åtte masteremner første studieår. Karakterene er ikke hele historien, men de viser at jeg leverer jevnt og selvstendig.</p></aside>
+          <ul class="course-list">
+            <li class="course"><span class="course-code">MC100</span><span><strong>Secure Software Development</strong><small>DevSecOps, sikker utviklingslivssyklus og privacy/security by design.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">MC101</span><span><strong>End-Point and Cloud Security</strong><small>Defense in depth, delt ansvar og beskyttelse av sky-, nettverks- og endepunktmiljøer.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">MC102</span><span><strong>Cyber Threat Intelligence</strong><small>OSINT, logg- og artefaktanalyse, CTI-rammeverk, SIEM og MITRE ATT&amp;CK.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">MC103</span><span><strong>Cryptography and Blockchain</strong><small>Kryptering av data i ro og transitt, transaksjonsanalyse og blokkjedeløsninger.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">MC104</span><span><strong>AI for Cyber Security</strong><small>Klassifisering, clustering og regresjon brukt på blant annet skadevare- og nettverkstrafikk.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">ETH2100</span><span><strong>Etisk hacking</strong><small>Offensiv metodikk, sårbarhetsanalyse, utnyttelse og ansvarlig dokumentasjon.</small></span><span class="grade">A</span></li>
+            <li class="course"><span class="course-code">GRC1100</span><span><strong>Governance, Risk and Compliance</strong><small>Styring, risiko, kontroller og etterlevelse i en organisatorisk kontekst.</small></span><span class="grade">✓</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="prosjekter">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">04 / Utvalgte prosjekter</div>
+          <div>
+            <h2>Arbeid som viser hvordan jeg tenker.</h2>
+            <p class="section-intro">Jeg har valgt ut noen få prosjekter som viser bredde og ansvar, i stedet for å liste alt jeg har vært innom.</p>
+          </div>
+        </div>
+
+        <div class="project-grid">
+          <article class="project"><span class="project-label">NOKUT · Infrastruktur</span><h3>Ny driftsleverandør</h3><p>Kravspesifikasjon, miljøkartlegging, løsningsdesign, MDM/Intune, beredskap med ASR/backup og RTO/RPO, akseptansetesting og overgang til drift.</p></article>
+          <article class="project"><span class="project-label">NOKUT · Digital arbeidsflate</span><h3>Fra Episerver til SharePoint</h3><p>Oppfølging av utviklere og interne brukergrupper, behovskartlegging og tilrettelegging av ny plattform for dokument- og informasjonsdeling.</p></article>
+          <article class="project"><span class="project-label">Bachelorprosjekt · Bidder AS</span><h3>Penetrasjonstest av Android-applikasjon</h3><p>Statisk, automatisert og dynamisk analyse med jadx-gui, MobSF, Frida og Objection, strukturert etter OWASP Mobile Top 10. Funn og konkrete tiltak ble levert til utviklingsteamet.</p></article>
+          <article class="project"><span class="project-label">NOKUT · Nettverk</span><h3>Dekningsanalyse for trådløst nett</h3><p>Leverandørdialog, analyse av dekning og utarbeidelse av anbefaling og løsningsforslag presentert for ledelsen.</p></article>
+          <article class="project"><span class="project-label">Fagmiljø · 2024</span><h3>Min første CTF hos Netcompany</h3><p>En praktisk kveld med sikkerhetsoppgaver, samarbeid og nye faglige bekjentskaper – og en god påminnelse om hvorfor jeg holder meg aktiv på TryHackMe og Hack The Box.</p></article>
+        </div>
+        <p class="micro">Kode og mindre labprosjekter ligger på <a href="https://github.com/abdulr15352" target="_blank" rel="noreferrer">GitHub-profilen min ↗</a>.</p>
+      </div>
+    </section>
+
+    <section class="credentials" aria-labelledby="bakgrunn-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">05 / Bakgrunn</div>
+          <div><h2 id="bakgrunn-title">Formell tyngde, praktisk retning.</h2></div>
+        </div>
+        <div class="credential-grid">
+          <article class="credential"><small>2025 – pågående</small><h3>Master i cybersikkerhet</h3><p>Høyskolen Kristiania · 60 av 120 studiepoeng fullført.</p></article>
+          <article class="credential"><small>2022 – 2025</small><h3>Bachelor i cybersikkerhet</h3><p>Høyskolen Kristiania · 180 studiepoeng.</p></article>
+          <article class="credential"><small>Aug 2025 – aug 2028</small><h3>CompTIA Security+ (SY0-701)</h3><p>Grunnlag innen trusler, sikkerhetsarkitektur, sikkerhetsdrift og risikostyring.</p></article>
+          <article class="credential"><small>Språk</small><h3>Norsk og engelsk</h3><p>Norsk morsmål, engelsk flytende. Muntlig urdu og punjabi, grunnleggende fransk.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="kontakt">
+      <div class="wrap">
+        <div class="contact-card">
+          <div>
+            <p class="eyebrow">Ta kontakt</p>
+            <h2>Har dere et miljø jeg kan bli skikkelig god i?</h2>
+            <p>Jeg er interessert i roller innen cybersikkerhet og IT-sikkerhet der jeg kan bidra praktisk fra start og utvikle meg videre sammen med flinke folk.</p>
+          </div>
+          <div class="contact-links">
+            <a href="mailto:abdulr15352@gmail.com"><span>E-post</span><span aria-hidden="true">↗</span></a>
+            <a href="tel:+4793951945"><span>+47 939 51 945</span><span aria-hidden="true">↗</span></a>
+            <a href="https://www.linkedin.com/in/abdul-rafeh-alvi-8b9a00290/" target="_blank" rel="noreferrer"><span>LinkedIn</span><span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/abdulr15352" target="_blank" rel="noreferrer"><span>GitHub</span><span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <footer><span>© 2026 Abdul-Rafeh Alvi</span><span>Bygget med omtanke i Oslo.</span></footer>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
